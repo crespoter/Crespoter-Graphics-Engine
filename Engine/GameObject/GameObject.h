@@ -23,6 +23,7 @@ protected:
 
 public:
 	CGameObject(const std::string &InName);
+	virtual ~CGameObject();
 	
 	/**
 	 * Called once after object creation. Child classes overriding this method need to call parent function for updates to occur properly

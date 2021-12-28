@@ -6,6 +6,17 @@ CGameObject::CGameObject(const std::string& InName)
 	Name = InName;
 }
 
+CGameObject::~CGameObject()
+{
+	// Clear memory of all components
+	for (auto i = ComponentsList.begin(); i != ComponentsList.end(); i++)
+	{
+		IComponent* Component = *i;
+		delete Component;
+	}
+	ComponentsList.clear();
+}
+
 void CGameObject::Start()
 {
 	// Call Start on all components
