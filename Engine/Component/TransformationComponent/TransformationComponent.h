@@ -12,7 +12,7 @@ class CTransformationComponent : public IComponent
 private:
 
 	// Current position
-	glm::vec3 Position = glm::vec3(0.0f);
+	glm::vec3 Position;
 	
 	// x,y,z float values represent rotation around x,y and z around the object center
 	glm::vec3 Rotation = glm::vec3(0.0f);
@@ -44,4 +44,10 @@ public:
 	void Scale(const glm::vec3 &InScaleVector);
 
 	// TODO: Handle Rotations
+
+
+	/**
+	 * Returns current position
+	*/
+	glm::vec3 GetPosition() const;
 };

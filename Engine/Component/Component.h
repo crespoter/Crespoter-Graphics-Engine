@@ -4,9 +4,6 @@
 class CGameObject;
 class IComponent
 {
-private:
-	// Disables initialization without parameters
-	IComponent() {};
 protected:
 	IComponent(const std::string InComponentName);
 	CGameObject* ParentGameObject = nullptr;
@@ -16,4 +13,5 @@ public:
 	virtual void Start() {};
 	virtual void Update(float DeltaTime) {};
 	void UpdateParent(CGameObject* InParentGameObject);
+	std::string GetName() const;
 };

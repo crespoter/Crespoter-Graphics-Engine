@@ -12,3 +12,8 @@ void IComponent::UpdateParent(CGameObject* InParentGameObject)
 	assert(InParentGameObject != nullptr);
 	ParentGameObject = InParentGameObject;
 }
+
+std::string IComponent::GetName() const
+{
+	return ComponentName;
+}

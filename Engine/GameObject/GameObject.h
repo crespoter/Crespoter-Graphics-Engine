@@ -56,7 +56,9 @@ template<typename T>
 void CGameObject::AddComponent()
 {
 	assert((std::is_base_of<IComponent, T>::value));
-	ComponentsList.push_back(new T());
+	IComponent* Component = new T();
+	ComponentsList.push_back(Component);
+	Component->UpdateParent(this);
 }
 
 

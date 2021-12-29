@@ -6,8 +6,9 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "Engine/GameObject/GameObject.h"
 #include "Engine/Component/TransformationComponent/TransformationComponent.h"
+#include "Engine/Component/CameraComponent/CameraComponent.h"
 
-void ProcessInput(COpenGLWindow &InWindow);
+void ProcessInput(COpenGLWindow &InWindow, CCameraComponent* CameraComponent);
 
 const float PlaneVertices[] = {
     // positions				//texture coords s,r
@@ -123,13 +124,20 @@ int main()
 	glm::mat4 ModelMatrix = glm::mat4(1.0f);
 
 
-	glm::mat4 ViewMatrix = glm::mat4(1.0f);
-	ViewMatrix = glm::translate(ViewMatrix, glm::vec3(0.0f, 0.0f, -3.0f));
+
 	glm::mat4 ProjectionMatrix = glm::mat4(1.0f);
 
 	ProjectionMatrix = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
 	CGameObject* GameObject[10];
+
+	CGameObject Camera("Camera Game Object");
+	Camera.AddComponent<CCameraComponent>();
+	Camera.AddComponent<CTransformationComponent>();
+
+	CCameraComponent* CameraRef = Camera.GetComponent<CCameraComponent>();
+	CTransformationComponent* CameraTransformationComponent = Camera.GetComponent<CTransformationComponent>();
+	CameraTransformationComponent->MoveTo(glm::vec3(0.0f, 0.0f, -3.0f));
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -139,11 +147,16 @@ int main()
 	}
 
 
+	// Start for all objects. TODO: Automate
+	Camera.Start();
 
 
 	while (!Window.ShouldWindowClose())
 	{
-		ProcessInput(Window);
+		// TODO: Create object loop
+		Camera.Update(0.0f);
+
+		ProcessInput(Window, CameraRef);
 
 		Window.SwapBuffers();
 		Window.Clear();
@@ -154,7 +167,7 @@ int main()
 		RickRollTexture.BindTexture(&DefaultShader, "Texture", 0);
 		BrickTexture.BindTexture(&DefaultShader, "Texture2", 1);
 
-		DefaultShader.SetMat4("ViewMatrix", ViewMatrix);
+		DefaultShader.SetMat4("ViewMatrix", CameraRef->GetViewMatrix());
 		DefaultShader.SetMat4("ProjectionMatrix", ProjectionMatrix);
 		
 		
@@ -173,14 +186,38 @@ int main()
 		glBindVertexArray(0);
 		glfwPollEvents();
 	}
+
+	for (int i = 0; i < 10; i++)
+		delete GameObject[i];
+
 	return 0;
 }
 
-void ProcessInput(COpenGLWindow& InWindow)
+void ProcessInput(COpenGLWindow& InWindow, CCameraComponent* CameraComponent)
 {
+	float CameraSpeed = 0.05f;
+	CTransformationComponent* CameraTransformationComponent = CameraComponent->GetParentTransformationComponent();
+	glm::vec3 CameraForward = CameraComponent->GetCameraForward();
+	glm::vec3 CameraRight = CameraComponent->GetCameraRight();
 	if (InWindow.IsKeyPressed(GLFW_KEY_ESCAPE))
 	{
 		InWindow.CloseWindow();
+	}
+	if (InWindow.IsKeyPressed(GLFW_KEY_W))
+	{ 
+		CameraTransformationComponent->Translate(CameraSpeed * CameraForward);
+	}
+	if (InWindow.IsKeyPressed(GLFW_KEY_S))
+	{ 
+		CameraTransformationComponent->Translate(-CameraSpeed * CameraForward);
+	}
+	if (InWindow.IsKeyPressed(GLFW_KEY_A))
+	{ 
+		CameraTransformationComponent->Translate(-CameraSpeed * CameraRight);
+	}
+	if (InWindow.IsKeyPressed(GLFW_KEY_D))
+	{ 
+		CameraTransformationComponent->Translate(CameraSpeed * CameraRight);
 	}
 }
 

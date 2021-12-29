@@ -3,6 +3,7 @@
 
 CTransformationComponent::CTransformationComponent() : IComponent(TRANSFORMATION_COMPONENT_NAME)
 {
+	Position = glm::vec3(0.0f);
 }
 
 glm::mat4 CTransformationComponent::GetModelMatrix()
@@ -29,4 +30,9 @@ void CTransformationComponent::Translate(const glm::vec3 &InTranslationVector)
 void CTransformationComponent::Scale(const glm::vec3 &InScaleVector)
 {
 	ScaleVector = InScaleVector;
+}
+
+glm::vec3 CTransformationComponent::GetPosition() const
+{
+	return Position;
 }
