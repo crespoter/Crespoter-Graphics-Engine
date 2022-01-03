@@ -19,7 +19,7 @@ private:
 	unsigned int MinorVersion;
 	GLFWwindow* Window = nullptr;
 
-// Member Functions
+	// Member Functions
 private:
 	static void FrameBufferSizeCallback(GLFWwindow* Window, int Width, int Height);
 public:
@@ -30,4 +30,6 @@ public:
 	bool ShouldWindowClose() const override;
 	void SwapBuffers() const override;
 	bool IsKeyPressed(int GLFWKeyCode) const override;
+	FMousePosition GetMousePosition() const override;
+	float GetAspectRatio() const override;
 };

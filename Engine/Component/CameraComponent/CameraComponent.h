@@ -3,11 +3,13 @@
 #include "../Component.h"
 
 class CTransformationComponent;
+class IWindowInterface;
 
 namespace
 {
 	const std::string CAMERA_COMPONENT_NAME = "Camera Component";
 }
+
 
 class CCameraComponent : public IComponent
 {
@@ -18,11 +20,15 @@ private:
 	glm::vec3 CameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 	float Yaw = 0;
 	float Pitch = 0;
+	float Fov = 45.0f;
+
 
 	glm::mat4 ViewMatrix = glm::mat4(1.0f);
 public:
 	CCameraComponent();
 	glm::mat4 GetViewMatrix() const;
+
+	glm::mat4 GetProjectionMatrix(const IWindowInterface* InWindow) const;
 
 	void Start() override;
 
@@ -47,4 +53,9 @@ public:
 	glm::vec3 GetCameraRight() const;
 
 	CTransformationComponent* GetParentTransformationComponent() const;
+
+	/**
+	 * Sets the new fov of the camera
+	*/
+	void SetFov(float NewFov);
 };

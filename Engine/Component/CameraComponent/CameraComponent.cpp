@@ -2,6 +2,7 @@
 #include "../Component.h"
 #include "../../GameObject/GameObject.h"
 #include "../TransformationComponent/TransformationComponent.h"
+#include "../../Window/WindowInterface.h"
 
 CCameraComponent::CCameraComponent() : IComponent(CAMERA_COMPONENT_NAME)
 {
@@ -14,13 +15,19 @@ glm::mat4 CCameraComponent::GetViewMatrix() const
 	return glm::lookAt(Position, Position + CameraForward, CameraUp);
 }
 
+glm::mat4 CCameraComponent::GetProjectionMatrix(const IWindowInterface* InWindow) const
+{
+	// TODO: Handle min/max distance
+	// TODO: Handle orthogonal projection
+	return glm::perspective(glm::radians(Fov), InWindow->GetAspectRatio(), 0.1f, 100.0f);
+}
+
 void CCameraComponent::Start()
 {
 	assert(ParentGameObject != nullptr);
 	CTransformationComponent* TransformationComponent = ParentGameObject->GetComponent<CTransformationComponent>();
 	assert(TransformationComponent != nullptr);
 	ParentTransformationComponent = TransformationComponent;
-	std::cout << ParentTransformationComponent->GetName();
 }
 
 void CCameraComponent::Update(float DeltaTime)
@@ -79,5 +86,10 @@ glm::vec3 CCameraComponent::GetCameraRight() const
 CTransformationComponent* CCameraComponent::GetParentTransformationComponent() const
 {
 	return ParentTransformationComponent;
+}
+
+void CCameraComponent::SetFov(float NewFov)
+{
+	Fov = NewFov;
 }
 

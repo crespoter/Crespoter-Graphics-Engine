@@ -1,5 +1,6 @@
 #include "OpenGLWindow.h"
 #include <assert.h>
+#include <GLFW/glfw3.h>
 
 COpenGLWindow::COpenGLWindow(unsigned int InMajorVersion, unsigned int InMinorVersion)
 {
@@ -19,9 +20,10 @@ void COpenGLWindow::FrameBufferSizeCallback(GLFWwindow* Window, int Width, int H
 	glViewport(0, 0, Width, Height);
 }
 
+
 void COpenGLWindow::InitializeWindow(std::string WindowName, int Height, int Width, WINDOW_MODE WindowMode)
 {
-	// TODO(davidchristie) : Handle Borderless and fullscreen window modes
+	// TODO : Handle Borderless and fullscreen window modes
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, MajorVersion);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, MinorVersion);
@@ -43,6 +45,9 @@ void COpenGLWindow::InitializeWindow(std::string WindowName, int Height, int Wid
 	}
 	glViewport(0, 0, Height, Width);
 	glfwSetFramebufferSizeCallback(Window, COpenGLWindow::FrameBufferSizeCallback);
+	glfwSetInputMode(Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+
 	glEnable(GL_DEPTH_TEST);
 	bIsInitialized = true;
 }
@@ -81,4 +86,19 @@ void COpenGLWindow::SetClearColor(float R, float G, float B, float A)
 bool COpenGLWindow::IsKeyPressed(int GLFWKeyCode) const
 {
 	return glfwGetKey(Window, GLFWKeyCode) == GLFW_PRESS;
+}
+
+COpenGLWindow::FMousePosition COpenGLWindow::GetMousePosition() const
+{
+	double PosX, PosY;
+	glfwGetCursorPos(Window, &PosX, &PosY);
+	FMousePosition MousePosition((float)PosX, (float)PosY);
+	return MousePosition;
+}
+
+float COpenGLWindow::GetAspectRatio() const
+{
+	int Width, Height;
+	glfwGetWindowSize(Window, &Width, &Height);
+	return (float)Width / (float)Height;
 }

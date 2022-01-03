@@ -7,6 +7,7 @@
 #include "Engine/GameObject/GameObject.h"
 #include "Engine/Component/TransformationComponent/TransformationComponent.h"
 #include "Engine/Component/CameraComponent/CameraComponent.h"
+#include "Engine/ServiceLocator/ServiceLocator.h"
 
 void ProcessInput(COpenGLWindow &InWindow, CCameraComponent* CameraComponent);
 
@@ -149,7 +150,9 @@ int main()
 
 	// Start for all objects. TODO: Automate
 	Camera.Start();
+	CameraRef->SetFov(75.0f);
 
+	ServiceLocator::Provide(CameraRef);
 
 	while (!Window.ShouldWindowClose())
 	{
@@ -168,7 +171,7 @@ int main()
 		BrickTexture.BindTexture(&DefaultShader, "Texture2", 1);
 
 		DefaultShader.SetMat4("ViewMatrix", CameraRef->GetViewMatrix());
-		DefaultShader.SetMat4("ProjectionMatrix", ProjectionMatrix);
+		DefaultShader.SetMat4("ProjectionMatrix", CameraRef->GetProjectionMatrix(&Window));
 		
 		
 		
@@ -193,12 +196,20 @@ int main()
 	return 0;
 }
 
+// TODO: Debug code:
+
+float LastX = 400.0f, LastY = 300.0f;
+
 void ProcessInput(COpenGLWindow& InWindow, CCameraComponent* CameraComponent)
 {
+	// TODO: Move camera movement controls to free camera and fps camera components
+
 	float CameraSpeed = 0.05f;
 	CTransformationComponent* CameraTransformationComponent = CameraComponent->GetParentTransformationComponent();
 	glm::vec3 CameraForward = CameraComponent->GetCameraForward();
 	glm::vec3 CameraRight = CameraComponent->GetCameraRight();
+	glm::vec3 CameraUp = CameraComponent->GetCameraUp();
+
 	if (InWindow.IsKeyPressed(GLFW_KEY_ESCAPE))
 	{
 		InWindow.CloseWindow();
@@ -219,5 +230,20 @@ void ProcessInput(COpenGLWindow& InWindow, CCameraComponent* CameraComponent)
 	{ 
 		CameraTransformationComponent->Translate(CameraSpeed * CameraRight);
 	}
-}
+	if (InWindow.IsKeyPressed(GLFW_KEY_E))
+	{
+		CameraTransformationComponent->Translate(CameraSpeed * CameraUp);
+	}
+	if (InWindow.IsKeyPressed(GLFW_KEY_Q))
+	{
+		CameraTransformationComponent->Translate(- CameraSpeed * CameraUp);
+	}
+	IWindowInterface::FMousePosition CurrentMousePosition = InWindow.GetMousePosition();
+	const float sensitivity = 0.1f;
+	float xOffset = sensitivity * (CurrentMousePosition.PosX - LastX);
+	float yOffset = sensitivity * (LastY - CurrentMousePosition.PosY);
+	LastX = CurrentMousePosition.PosX;
+	LastY = CurrentMousePosition.PosY;
 
+	CameraComponent->IncrementRotationEulerAngles(xOffset, yOffset);
+}

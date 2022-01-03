@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+
 /**
  * Abstract class for window handling. Window application classes are expected to override all required functionalities. Also handles inputs
  */
@@ -19,6 +20,16 @@ public:
 		FULL_SCREEN,
 		WINDOWED,
 		BORDERLESS
+	};
+
+	/**
+	 * Structure for storing mouse position
+	 */
+	struct FMousePosition
+	{
+		FMousePosition(float PosX, float PosY);
+		float PosX = 0.0f;
+		float PosY = 0.0f;
 	};
 	
 	/*
@@ -63,4 +74,14 @@ public:
 	 * Returns true if the key provided is pressed, false otherwise
 	 */
 	virtual bool IsKeyPressed(int GLFWKeyCode) const = 0;
+	
+	/**
+	 * Returns the current position of the mouse
+	*/
+	virtual FMousePosition GetMousePosition() const = 0;
+
+	/**
+	 * Gets the current aspect ratio (w/h) 
+	*/
+	virtual float GetAspectRatio() const = 0;
 };
