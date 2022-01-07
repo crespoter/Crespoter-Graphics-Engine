@@ -17,13 +17,12 @@ glm::mat4 CCameraComponent::GetViewMatrix() const
 
 glm::mat4 CCameraComponent::GetProjectionMatrix(const IWindowInterface* InWindow) const
 {
-	// TODO: Handle min/max distance
-	// TODO: Handle orthogonal projection
-	return glm::perspective(glm::radians(Fov), InWindow->GetAspectRatio(), 0.1f, 100.0f);
+	return glm::perspective(glm::radians(Fov), InWindow->GetAspectRatio(), MinDistance, MaxDistance);
 }
 
 void CCameraComponent::Start()
 {
+	IComponent::Start();
 	assert(ParentGameObject != nullptr);
 	CTransformationComponent* TransformationComponent = ParentGameObject->GetComponent<CTransformationComponent>();
 	assert(TransformationComponent != nullptr);
@@ -91,5 +90,11 @@ CTransformationComponent* CCameraComponent::GetParentTransformationComponent() c
 void CCameraComponent::SetFov(float NewFov)
 {
 	Fov = NewFov;
+}
+
+void CCameraComponent::SetMinAndMaxDistance(float InMinDistance, float InMaxDistance)
+{
+	MinDistance = InMinDistance;
+	MaxDistance = InMaxDistance;
 }
 

@@ -10,12 +10,16 @@ namespace
 class CTransformationComponent : public IComponent
 {
 private:
-
+	// TODO: Use transformation matrix and decompose them to get position, scale, rotation etc
+	
 	// Current position
 	glm::vec3 Position;
 	
 	// x,y,z float values represent rotation around x,y and z around the object center
 	glm::vec3 Rotation = glm::vec3(0.0f);
+
+	// x,y,z values represent rotation around x, y and z axis in degrees
+	glm::vec3 Orientation = glm::vec3(0.0f);
 
 	// x,y,z float values represent scale along the direction of X, Y and Z axises
 	glm::vec3 ScaleVector = glm::vec3(1.0f);
@@ -25,7 +29,7 @@ public:
 	
 	/**
 	 * Returns the model matrix for the current configuration of position, rotation and Scale
-	 */
+	 */  
 	glm::mat4 GetModelMatrix();
 
 	/**

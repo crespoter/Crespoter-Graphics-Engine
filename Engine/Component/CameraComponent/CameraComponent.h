@@ -13,7 +13,7 @@ namespace
 
 class CCameraComponent : public IComponent
 {
-private:
+protected:
 	CTransformationComponent* ParentTransformationComponent = nullptr;
 	glm::vec3 CameraForward = glm::vec3(-1.0f, 0.0f, 0.0f);
 	glm::vec3 WorldUp = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -21,9 +21,9 @@ private:
 	float Yaw = 0;
 	float Pitch = 0;
 	float Fov = 45.0f;
+	float MinDistance = 0.1f;
+	float MaxDistance = 100.0f;
 
-
-	glm::mat4 ViewMatrix = glm::mat4(1.0f);
 public:
 	CCameraComponent();
 	glm::mat4 GetViewMatrix() const;
@@ -58,4 +58,6 @@ public:
 	 * Sets the new fov of the camera
 	*/
 	void SetFov(float NewFov);
+
+	void SetMinAndMaxDistance(float MinDistance, float MaxDistance);
 };

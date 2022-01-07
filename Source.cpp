@@ -8,8 +8,9 @@
 #include "Engine/Component/TransformationComponent/TransformationComponent.h"
 #include "Engine/Component/CameraComponent/CameraComponent.h"
 #include "Engine/ServiceLocator/ServiceLocator.h"
+#include "Engine/Component/CameraComponent/FreeCameraComponent/FreeCameraComponent.h"
 
-void ProcessInput(COpenGLWindow &InWindow, CCameraComponent* CameraComponent);
+void ProcessInput(COpenGLWindow &InWindow);
 
 const float PlaneVertices[] = {
     // positions				//texture coords s,r
@@ -78,7 +79,7 @@ int main()
 {
 	COpenGLWindow Window(3, 3);
 	Window.InitializeWindow("Crespoter Graphics Engine", 800, 600, IWindowInterface::WINDOW_MODE::WINDOWED);
-	Window.SetClearColor(0.05f, 0.278f, 0.631f, 1.0f);
+	Window.SetClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	// Main Vertex array
 	unsigned int VAO;
@@ -133,16 +134,30 @@ int main()
 	CGameObject* GameObject[10];
 
 	CGameObject Camera("Camera Game Object");
-	Camera.AddComponent<CCameraComponent>();
+	Camera.AddComponent<CFreeCameraComponent>();
 	Camera.AddComponent<CTransformationComponent>();
 
-	CCameraComponent* CameraRef = Camera.GetComponent<CCameraComponent>();
+	CFreeCameraComponent* CameraRef = Camera.GetComponent<CFreeCameraComponent>();
 	CTransformationComponent* CameraTransformationComponent = Camera.GetComponent<CTransformationComponent>();
 	CameraTransformationComponent->MoveTo(glm::vec3(0.0f, 0.0f, -3.0f));
+	
+	CFreeCameraComponent::FFreeCameraControlInput CameraControlInput;
+	CameraControlInput.CameraMoveSpeed = 0.001f;
+	CameraControlInput.MouseSensitivity = 0.1f;
+	CameraControlInput.MoveBackwardKey = GLFW_KEY_S;
+	CameraControlInput.MoveForwardKey = GLFW_KEY_W;
+	CameraControlInput.MoveDownKey = GLFW_KEY_Q;
+	CameraControlInput.MoveUpKey = GLFW_KEY_E;
+	CameraControlInput.MoveLeftKey = GLFW_KEY_A;
+	CameraControlInput.MoveRightKey = GLFW_KEY_D;
+
+	CameraRef->SetupMovementControls(&Window, CameraControlInput);
+
+
 
 	for (int i = 0; i < 10; i++)
 	{
-		GameObject[i] = new CGameObject("Rick roll");
+		GameObject[i] = new CGameObject("Rick roll cube");
 		GameObject[i]->AddComponent<CTransformationComponent>();
 		GameObject[i]->GetComponent<CTransformationComponent>()->Translate(CubePositions[i]);
 	}
@@ -157,9 +172,10 @@ int main()
 	while (!Window.ShouldWindowClose())
 	{
 		// TODO: Create object loop
-		Camera.Update(0.0f);
+		ProcessInput(Window);
+		Camera.Update(1.0f);
 
-		ProcessInput(Window, CameraRef);
+		// ProcessInput(Window, CameraRef);
 
 		Window.SwapBuffers();
 		Window.Clear();
@@ -196,54 +212,11 @@ int main()
 	return 0;
 }
 
-// TODO: Debug code:
 
-float LastX = 400.0f, LastY = 300.0f;
-
-void ProcessInput(COpenGLWindow& InWindow, CCameraComponent* CameraComponent)
+void ProcessInput(COpenGLWindow& InWindow)
 {
-	// TODO: Move camera movement controls to free camera and fps camera components
-
-	float CameraSpeed = 0.05f;
-	CTransformationComponent* CameraTransformationComponent = CameraComponent->GetParentTransformationComponent();
-	glm::vec3 CameraForward = CameraComponent->GetCameraForward();
-	glm::vec3 CameraRight = CameraComponent->GetCameraRight();
-	glm::vec3 CameraUp = CameraComponent->GetCameraUp();
-
 	if (InWindow.IsKeyPressed(GLFW_KEY_ESCAPE))
 	{
 		InWindow.CloseWindow();
 	}
-	if (InWindow.IsKeyPressed(GLFW_KEY_W))
-	{ 
-		CameraTransformationComponent->Translate(CameraSpeed * CameraForward);
-	}
-	if (InWindow.IsKeyPressed(GLFW_KEY_S))
-	{ 
-		CameraTransformationComponent->Translate(-CameraSpeed * CameraForward);
-	}
-	if (InWindow.IsKeyPressed(GLFW_KEY_A))
-	{ 
-		CameraTransformationComponent->Translate(-CameraSpeed * CameraRight);
-	}
-	if (InWindow.IsKeyPressed(GLFW_KEY_D))
-	{ 
-		CameraTransformationComponent->Translate(CameraSpeed * CameraRight);
-	}
-	if (InWindow.IsKeyPressed(GLFW_KEY_E))
-	{
-		CameraTransformationComponent->Translate(CameraSpeed * CameraUp);
-	}
-	if (InWindow.IsKeyPressed(GLFW_KEY_Q))
-	{
-		CameraTransformationComponent->Translate(- CameraSpeed * CameraUp);
-	}
-	IWindowInterface::FMousePosition CurrentMousePosition = InWindow.GetMousePosition();
-	const float sensitivity = 0.1f;
-	float xOffset = sensitivity * (CurrentMousePosition.PosX - LastX);
-	float yOffset = sensitivity * (LastY - CurrentMousePosition.PosY);
-	LastX = CurrentMousePosition.PosX;
-	LastY = CurrentMousePosition.PosY;
-
-	CameraComponent->IncrementRotationEulerAngles(xOffset, yOffset);
 }
