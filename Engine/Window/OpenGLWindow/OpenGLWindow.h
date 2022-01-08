@@ -23,6 +23,9 @@ private:
 private:
 	static void FrameBufferSizeCallback(GLFWwindow* Window, int Width, int Height);
 public:
+	/**
+	* Pass NULL for Height and Window to initialize resolution to monitors resolution
+	*/
 	void InitializeWindow(std::string WindowName, int Height, int Width, WINDOW_MODE WindowMode) override;
 	void CloseWindow() override;
 	void SetClearColor(float R, float G, float B, float A) override;

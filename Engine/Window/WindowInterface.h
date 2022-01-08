@@ -6,21 +6,25 @@
  */
 class IWindowInterface
 {
-protected:
-	IWindowInterface() {};
-	unsigned int CurrentHeight = 0;
-	unsigned int CurrentWidth = 0;
-	bool bIsInitialized = false;
 public:
 	/**
-	 * Window mode to be used
-	 */
+	* Window mode to be used
+	*/
 	enum class WINDOW_MODE
 	{
 		FULL_SCREEN,
 		WINDOWED,
 		BORDERLESS
 	};
+protected:
+	IWindowInterface() {};
+	unsigned int CurrentHeight = 0;
+	unsigned int CurrentWidth = 0;
+	bool bIsInitialized = false;
+	WINDOW_MODE WindowMode = WINDOW_MODE::FULL_SCREEN;
+
+public:
+
 
 	/**
 	 * Structure for storing mouse position

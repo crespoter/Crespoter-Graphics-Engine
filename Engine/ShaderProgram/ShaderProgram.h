@@ -47,6 +47,20 @@ public:
 	 */
 	 void SetMat4(const std::string& VariableName, glm::mat4 Value) const;
 
+	 /**
+	  * Sets a uniform vec3 variable
+	  * @param VariableName(std::string): Name of the uniform variable in the shader file
+	  * @param Value(std::vec3): Value to set
+	  */
+	 void SetVec3(const std::string& VariableName, glm::vec3 Value) const;
+
+	 /**
+	  * Sets a uniform vec4 variable
+	  * @param VariableName(std::string): Name of the uniform variable in the shader file
+	  * @param Value(std::vec4): Value to set
+	  */
+	 void SetVec4(const std::string& VariableName, glm::vec4 Value) const;
+
 private:
 	/**
 	 * Helper function to read from a file

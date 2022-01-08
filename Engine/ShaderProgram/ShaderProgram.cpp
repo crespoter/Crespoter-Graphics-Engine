@@ -55,6 +55,16 @@ void CShaderProgram::SetMat4(const std::string& VariableName, glm::mat4 Value) c
 	glUniformMatrix4fv(glGetUniformLocation(ProgramID, VariableName.c_str()), 1, GL_FALSE, glm::value_ptr(Value));
 }
 
+void CShaderProgram::SetVec3(const std::string& VariableName, glm::vec3 Value) const
+{
+	glUniform3fv(glGetUniformLocation(ProgramID, VariableName.c_str()), 1, glm::value_ptr(Value));
+}
+
+void CShaderProgram::SetVec4(const std::string& VariableName, glm::vec4 Value) const
+{
+	glUniform4fv(glGetUniformLocation(ProgramID, VariableName.c_str()), 1, glm::value_ptr(Value));
+}
+
 std::string CShaderProgram::ReadFromFile(const std::string& FilePath)
 {
 	std::string FileString = "";

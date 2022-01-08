@@ -1,6 +1,8 @@
 #pragma once
 #include "../Component.h"
+#include <bitset>
 #include <glm/gtx/vec_swizzle.hpp>
+#include <glm/gtc/quaternion.hpp>
 
 namespace
 {
@@ -10,23 +12,44 @@ namespace
 class CTransformationComponent : public IComponent
 {
 private:
-	// TODO: Use transformation matrix and decompose them to get position, scale, rotation etc
-	
-	// Current position
-	glm::vec3 Position;
-	
-	// x,y,z float values represent rotation around x,y and z around the object center
-	glm::vec3 Rotation = glm::vec3(0.0f);
+	enum TRANSFORMATION_STATE
+	{
+		POSITION_INDEX = 0,
+		OTHER_INDEX = 1
+	};
 
-	// x,y,z values represent rotation around x, y and z axis in degrees
-	glm::vec3 Orientation = glm::vec3(0.0f);
+	// Current position
+	glm::vec3 Position = glm::vec3(0.0f);
+	
+
+	// Quaternion to represent current orientation
+	glm::quat Orientation = glm::quat();
 
 	// x,y,z float values represent scale along the direction of X, Y and Z axises
 	glm::vec3 ScaleVector = glm::vec3(1.0f);
 
+	/**
+	* TransformationMatrix for the object.
+	*/
+	glm::mat4 TransformationMatrix = glm::mat4(1.0f);
+
+	/**
+	* Bitset used to track whether position, rotation and scale has already been calculated for this frame.
+	* Index 0 -> True if position is already calculated for this frame. False otherwise
+	* Index 1 -> True if position, rotation and scale have been calculated for this frame. False Otherwise
+	*/
+	std::bitset<2> TransformationCalculationStates;
+
+	/**
+	* Calculates and assigns the rotation and scale to the member variables
+	*/
+	void CalculateRotationAndScale();
+
 public:
 	CTransformationComponent();
 	
+	void Update(float DeltaTime) override;
+
 	/**
 	 * Returns the model matrix for the current configuration of position, rotation and Scale
 	 */  
@@ -47,11 +70,23 @@ public:
 	*/
 	void Scale(const glm::vec3 &InScaleVector);
 
-	// TODO: Handle Rotations
-
+	/**
+	* Rotates around the given axis by Angle degrees
+	*/
+	void Rotate(const glm::vec3& InRotationAxis, float Angle);
 
 	/**
 	 * Returns current position
 	*/
-	glm::vec3 GetPosition() const;
+	glm::vec3 GetPosition();
+
+	/**
+	* Returns Scale
+	*/
+	glm::vec3 GetScale();
+
+	/**
+	* Returns Orientation
+	*/
+	glm::quat GetOrientation();
 };

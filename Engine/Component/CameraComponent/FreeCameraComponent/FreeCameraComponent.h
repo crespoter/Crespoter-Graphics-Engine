@@ -17,7 +17,7 @@ public:
 		float MouseSensitivity = 1.0f;
 	};
 private:
-	IWindowInterface* WindowInterface;
+	IWindowInterface* WindowInterface = nullptr;
 	FFreeCameraControlInput CameraControlInput;
 	float LastMouseX = 0.0f, LastMouseY = 0.0f;
 

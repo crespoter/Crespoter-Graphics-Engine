@@ -113,4 +113,8 @@
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Engine\Shaders\OpenGL Shaders\Light Shaders\LightShader.vert" />
+    <None Include="Engine\Shaders\OpenGL Shaders\Light Shaders\LightShader.frag" />
+  </ItemGroup>
 </Project>

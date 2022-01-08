@@ -21,64 +21,102 @@ const float PlaneVertices[] = {
 };
 
 const float CubeVertices[] = {
-	 // Back face
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 
-	 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,  
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+	// Vertex			  //Texture coords  //Normal
+	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,	0.0f,  0.0f, -1.0f,
+	 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,	0.0f,  0.0f, -1.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,	0.0f,  0.0f, -1.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,	0.0f,  0.0f, -1.0f,
+	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,	0.0f,  0.0f, -1.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,	0.0f,  0.0f, -1.0f,
 
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,	0.0f,  0.0f, 1.0f,
+	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,	0.0f,  0.0f, 1.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,	0.0f,  0.0f, 1.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,	0.0f,  0.0f, 1.0f,
+	-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,	0.0f,  0.0f, 1.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,	0.0f,  0.0f, 1.0f,
 
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,	-1.0f,  0.0f,  0.0f,
+	-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,	-1.0f,  0.0f,  0.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,	-1.0f,  0.0f,  0.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,	-1.0f,  0.0f,  0.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,	-1.0f,  0.0f,  0.0f,
+	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,	-1.0f,  0.0f,  0.0f,
 
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,	1.0f,  0.0f,  0.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,	1.0f,  0.0f,  0.0f,
+	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,	1.0f,  0.0f,  0.0f,
+	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,	1.0f,  0.0f,  0.0f,
+	 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,	1.0f,  0.0f,  0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,	1.0f,  0.0f,  0.0f,
 
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,	 0.0f, -1.0f,  0.0f,
+	 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,	 0.0f, -1.0f,  0.0f,
+	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,	 0.0f, -1.0f,  0.0f,
+	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,	 0.0f, -1.0f,  0.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,	 0.0f, -1.0f,  0.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,	 0.0f, -1.0f,  0.0f,
 
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,	0.0f,  1.0f,  0.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,	0.0f,  1.0f,  0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,	0.0f,  1.0f,  0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,	0.0f,  1.0f,  0.0f,
+	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,	0.0f,  1.0f,  0.0f,
 	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+};
 
+const float LightCubeVertices[] = {
+	-0.5f, -0.5f, -0.5f,
+	 0.5f, -0.5f, -0.5f,
+	 0.5f,  0.5f, -0.5f,
+	 0.5f,  0.5f, -0.5f,
+	-0.5f,  0.5f, -0.5f,
+	-0.5f, -0.5f, -0.5f,
+
+	-0.5f, -0.5f,  0.5f,
+	 0.5f, -0.5f,  0.5f,
+	 0.5f,  0.5f,  0.5f,
+	 0.5f,  0.5f,  0.5f,
+	-0.5f,  0.5f,  0.5f,
+	-0.5f, -0.5f,  0.5f,
+
+	-0.5f,  0.5f,  0.5f,
+	-0.5f,  0.5f, -0.5f,
+	-0.5f, -0.5f, -0.5f,
+	-0.5f, -0.5f, -0.5f,
+	-0.5f, -0.5f,  0.5f,
+	-0.5f,  0.5f,  0.5f,
+
+	 0.5f,  0.5f,  0.5f,
+	 0.5f,  0.5f, -0.5f,
+	 0.5f, -0.5f, -0.5f,
+	 0.5f, -0.5f, -0.5f,
+	 0.5f, -0.5f,  0.5f,
+	 0.5f,  0.5f,  0.5f,
+
+	-0.5f, -0.5f, -0.5f,
+	 0.5f, -0.5f, -0.5f,
+	 0.5f, -0.5f,  0.5f,
+	 0.5f, -0.5f,  0.5f,
+	-0.5f, -0.5f,  0.5f,
+	-0.5f, -0.5f, -0.5f,
+
+	-0.5f,  0.5f, -0.5f,
+	 0.5f,  0.5f, -0.5f,
+	 0.5f,  0.5f,  0.5f,
+	 0.5f,  0.5f,  0.5f,
+	-0.5f,  0.5f,  0.5f,
+	-0.5f,  0.5f, -0.5f,
 };
 
 
-
-const unsigned int indices[] = {
-	0, 2, 1,   // first triangle
-	0, 2, 3    // second triangle
-};
 
 
 
 int main()
 {
 	COpenGLWindow Window(3, 3);
-	Window.InitializeWindow("Crespoter Graphics Engine", 800, 600, IWindowInterface::WINDOW_MODE::WINDOWED);
+	Window.InitializeWindow("Crespoter Graphics Engine", NULL, NULL, IWindowInterface::WINDOW_MODE::BORDERLESS);
 	Window.SetClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	// Main Vertex array
@@ -94,11 +132,32 @@ int main()
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(CubeVertices), CubeVertices, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float)));
+	glEnableVertexAttribArray(2);
 
+
+
+
+	// Light VAO
+	unsigned int LightVAO;
+	glGenVertexArrays(1, &LightVAO);
+	glBindVertexArray(LightVAO);
+
+
+	// Vertex buffer object for array buffer. Vertex data would be stored here
+	glGenBuffers(1, &VBO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(LightCubeVertices), LightCubeVertices, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	
 
 	glm::vec3 CubePositions[] = {
 		glm::vec3(0.0f,  0.0f,  0.0f),
@@ -113,13 +172,16 @@ int main()
 		glm::vec3(-1.3f,  1.0f, -1.5f)
 	};
 	
-	// Indices
-	// unsigned int EBO;
-	// glGenBuffers(1, &EBO);
-	// glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	// glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 	CShaderProgram DefaultShader("Engine/Shaders/OpenGL Shaders/Default/DefaultVertexShader.vert", "Engine/Shaders/OpenGL Shaders/Default/DefaultFragmentShader.frag");
+	CShaderProgram LightShader("Engine/Shaders/OpenGL Shaders/Light Shaders/LightShader.vert", "Engine/Shaders/OpenGL Shaders/Light Shaders/LightShader.frag");
+	DefaultShader.Activate();
+	DefaultShader.SetVec3("lightColor", glm::vec3(0.0f, 1.0f, 1.0f));
+	DefaultShader.SetVec3("lightPos", glm::vec3(2.0f, 2.0f, 2.0f));
+
+	LightShader.Activate();
+	LightShader.SetVec3("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
+	LightShader.SetVec3("lightColor", glm::vec3(0.0f, 1.0f, 1.0f));
 
 	COpenGLTexture RickRollTexture("Assets/Textures/rickroll.jpg");
 	COpenGLTexture BrickTexture("Assets/Textures/brick-wall.jpg");
@@ -127,9 +189,7 @@ int main()
 
 
 
-	glm::mat4 ProjectionMatrix = glm::mat4(1.0f);
 
-	ProjectionMatrix = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
 	CGameObject* GameObject[10];
 
@@ -154,6 +214,9 @@ int main()
 	CameraRef->SetupMovementControls(&Window, CameraControlInput);
 
 
+	CGameObject LightGameObject("Light Sample");
+	LightGameObject.AddComponent<CTransformationComponent>();
+
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -161,7 +224,7 @@ int main()
 		GameObject[i]->AddComponent<CTransformationComponent>();
 		GameObject[i]->GetComponent<CTransformationComponent>()->Translate(CubePositions[i]);
 	}
-
+	LightGameObject.GetComponent<CTransformationComponent>()->MoveTo(glm::vec3(2.0f, 2.0f, 2.0f));
 
 	// Start for all objects. TODO: Automate
 	Camera.Start();
@@ -174,6 +237,7 @@ int main()
 		// TODO: Create object loop
 		ProcessInput(Window);
 		Camera.Update(1.0f);
+		LightGameObject.Update(1.0f);
 
 		// ProcessInput(Window, CameraRef);
 
@@ -188,8 +252,8 @@ int main()
 
 		DefaultShader.SetMat4("ViewMatrix", CameraRef->GetViewMatrix());
 		DefaultShader.SetMat4("ProjectionMatrix", CameraRef->GetProjectionMatrix(&Window));
-		
-		
+		DefaultShader.SetVec3("viewPos", CameraRef->GetParentTransformationComponent()->GetPosition());
+
 		
 		for (unsigned int i = 0; i < 10; i++)
 		{
@@ -197,9 +261,16 @@ int main()
 
 			ModelMatrix = glm::rotate(ModelMatrix, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(1.0f, 0.3f, 0.5f));
 			DefaultShader.SetMat4("ModelMatrix", ModelMatrix);
+			
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
 
+		glBindVertexArray(LightVAO);
+		LightShader.Activate();
+		LightShader.SetMat4("ViewMatrix", CameraRef->GetViewMatrix());
+		LightShader.SetMat4("ProjectionMatrix", CameraRef->GetProjectionMatrix(&Window));
+		LightShader.SetMat4("ModelMatrix", LightGameObject.GetComponent<CTransformationComponent>()->GetModelMatrix());
+		glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		// Uninitialize
 		glBindVertexArray(0);

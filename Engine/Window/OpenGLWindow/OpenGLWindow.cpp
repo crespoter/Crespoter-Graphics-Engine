@@ -20,15 +20,42 @@ void COpenGLWindow::FrameBufferSizeCallback(GLFWwindow* Window, int Width, int H
 	glViewport(0, 0, Width, Height);
 }
 
-
-void COpenGLWindow::InitializeWindow(std::string WindowName, int Height, int Width, WINDOW_MODE WindowMode)
+void COpenGLWindow::InitializeWindow(std::string WindowName, int Height, int Width, WINDOW_MODE InWindowMode)
 {
-	// TODO : Handle Borderless and fullscreen window modes
+	WindowMode = InWindowMode;
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, MajorVersion);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, MinorVersion);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	Window = glfwCreateWindow(Height, Width, WindowName.c_str(), NULL, NULL);
+	if (Height == NULL || Width == NULL)
+	{
+		const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+		if (Height == NULL)
+		{
+			Height = mode->width;
+		}
+		if (Width == NULL)
+		{
+			Width = mode->height;
+		}
+	}
+	const GLFWvidmode* Mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+
+	switch (WindowMode)
+	{
+		case WINDOW_MODE::WINDOWED:
+			glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+			glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
+			Window = glfwCreateWindow(Height, Width, WindowName.c_str(), NULL, NULL);
+			break;
+		case WINDOW_MODE::BORDERLESS:
+			Window = glfwCreateWindow(Height, Width, WindowName.c_str(), glfwGetPrimaryMonitor(), NULL);
+			glfwSetWindowMonitor(Window, glfwGetPrimaryMonitor(), 0, 0, Height, Width, Mode->refreshRate);
+			break;
+		case WINDOW_MODE::FULL_SCREEN:
+			Window = glfwCreateWindow(Height, Width, WindowName.c_str(), glfwGetPrimaryMonitor(), NULL);
+			break;
+	}
 	CurrentWidth = Width;
 	CurrentHeight = Height;
 	if (Window == NULL)
@@ -98,7 +125,11 @@ COpenGLWindow::FMousePosition COpenGLWindow::GetMousePosition() const
 
 float COpenGLWindow::GetAspectRatio() const
 {
-	int Width, Height;
-	glfwGetWindowSize(Window, &Width, &Height);
-	return (float)Width / (float)Height;
+	if (WindowMode == WINDOW_MODE::WINDOWED)
+	{	
+		int Width, Height;
+		glfwGetWindowSize(Window, &Width, &Height);
+		return (float)Width / (float)Height;
+	}
+	return (float)CurrentHeight / (float)CurrentWidth;
 }

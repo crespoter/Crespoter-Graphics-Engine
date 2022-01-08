@@ -183,6 +183,10 @@
     <Image Include="Assets\Textures\brick-wall.jpg" />
     <Image Include="Assets\Textures\rickroll.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Engine\Shaders\OpenGL Shaders\Light Shaders\LightShader.frag" />
+    <None Include="Engine\Shaders\OpenGL Shaders\Light Shaders\LightShader.vert" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
