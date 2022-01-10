@@ -195,7 +195,6 @@ int main()
 
 	CGameObject Camera("Camera Game Object");
 	Camera.AddComponent<CFreeCameraComponent>();
-	Camera.AddComponent<CTransformationComponent>();
 
 	CFreeCameraComponent* CameraRef = Camera.GetComponent<CFreeCameraComponent>();
 	CTransformationComponent* CameraTransformationComponent = Camera.GetComponent<CTransformationComponent>();

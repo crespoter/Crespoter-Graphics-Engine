@@ -1,9 +1,11 @@
 #include "GameObject.h"
 #include "../Component/Component.h"
+#include "../Component/TransformationComponent/TransformationComponent.h"
 
 CGameObject::CGameObject(const std::string& InName)
 {
 	Name = InName;
+	this->AddComponent<CTransformationComponent>();
 }
 
 CGameObject::~CGameObject()

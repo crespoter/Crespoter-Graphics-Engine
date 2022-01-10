@@ -152,8 +152,6 @@
     <ClCompile Include="Engine\Component\Component.cpp" />
     <ClCompile Include="Engine\Component\TransformationComponent\TransformationComponent.cpp" />
     <ClCompile Include="Engine\GameObject\GameObject.cpp" />
-    <ClCompile Include="Engine\Model\DebugModels\Cube\Cube.cpp" />
-    <ClCompile Include="Engine\Model\Model.cpp" />
     <ClCompile Include="Engine\ShaderProgram\ShaderProgram.cpp" />
     <ClCompile Include="Engine\ServiceLocator\ServiceLocator.cpp" />
     <ClCompile Include="Engine\Texture\OpenGLTexture\OpenGLTexture.cpp" />
@@ -169,8 +167,6 @@
     <ClInclude Include="Engine\Component\Component.h" />
     <ClInclude Include="Engine\Component\TransformationComponent\TransformationComponent.h" />
     <ClInclude Include="Engine\GameObject\GameObject.h" />
-    <ClInclude Include="Engine\Model\DebugModels\Cube\Cube.h" />
-    <ClInclude Include="Engine\Model\Model.h" />
     <ClInclude Include="Engine\ShaderProgram\ShaderProgram.h" />
     <ClInclude Include="Engine\ServiceLocator\ServiceLocator.h" />
     <ClInclude Include="Engine\Texture\OpenGLTexture\OpenGLTexture.h" />

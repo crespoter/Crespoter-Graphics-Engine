@@ -11,6 +11,53 @@ namespace
 
 class CTransformationComponent : public IComponent
 {
+
+public:
+	CTransformationComponent();
+
+	void Update(float DeltaTime) override;
+
+	/**
+	 * Returns the model matrix for the current configuration of position, rotation and Scale
+	 */
+	glm::mat4 GetModelMatrix();
+
+	/**
+	 * Moves to the provided position in the world space
+	*/
+	void MoveTo(const glm::vec3& InNewPosition);
+
+	/**
+	 * Translate the object by the translation vector
+	 */
+	void Translate(const glm::vec3& InTranslationVector);
+
+	/**
+	 * Scales along x,y and z axises as per x,y,z coordinate of the vec3
+	*/
+	void Scale(const glm::vec3& InScaleVector);
+
+	/**
+	* Rotates around the given axis by Angle degrees
+	*/
+	void Rotate(const glm::vec3& InRotationAxis, float Angle);
+
+	/**
+	 * Returns current position
+	*/
+	glm::vec3 GetPosition();
+
+	/**
+	* Returns Scale
+	*/
+	glm::vec3 GetScale();
+
+	/**
+	* Returns Orientation
+	*/
+	glm::quat GetOrientation();
+
+
 private:
 	enum TRANSFORMATION_STATE
 	{
@@ -44,49 +91,4 @@ private:
 	* Calculates and assigns the rotation and scale to the member variables
 	*/
 	void CalculateRotationAndScale();
-
-public:
-	CTransformationComponent();
-	
-	void Update(float DeltaTime) override;
-
-	/**
-	 * Returns the model matrix for the current configuration of position, rotation and Scale
-	 */  
-	glm::mat4 GetModelMatrix();
-
-	/**
-	 * Moves to the provided position in the world space 
-	*/
-	void MoveTo(const glm::vec3 &InNewPosition);
-	
-	/**
-	 * Translate the object by the translation vector
-	 */
-	void Translate(const glm::vec3 &InTranslationVector);
-
-	/**
-	 * Scales along x,y and z axises as per x,y,z coordinate of the vec3
-	*/
-	void Scale(const glm::vec3 &InScaleVector);
-
-	/**
-	* Rotates around the given axis by Angle degrees
-	*/
-	void Rotate(const glm::vec3& InRotationAxis, float Angle);
-
-	/**
-	 * Returns current position
-	*/
-	glm::vec3 GetPosition();
-
-	/**
-	* Returns Scale
-	*/
-	glm::vec3 GetScale();
-
-	/**
-	* Returns Orientation
-	*/
-	glm::quat GetOrientation();
 };

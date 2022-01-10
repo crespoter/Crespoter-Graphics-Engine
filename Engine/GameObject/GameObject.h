@@ -7,19 +7,12 @@ class IComponent;
 
 /**
  * Building block for any program. Components can be attached to game objects for additional functionalities.
+ * Transformation component is attached to all game objects automatically
+ * Only gameobjects or its children can be attached to a scene.
  */
+
 class CGameObject
 {
-protected:
-	// Name of the game object
-	std::string Name = "";
-
-	// List of all components attached to this game object.
-	std::vector<IComponent*> ComponentsList;
-
-	bool bShouldUpdate = false;
-	
-
 
 public:
 	CGameObject(const std::string &InName);
@@ -41,6 +34,9 @@ public:
 	 */
 	void AddComponent(IComponent* InComponent);
 
+	/**
+	* Adds a component of specified type
+	*/
 	template<typename T>
 	void AddComponent();
 
@@ -49,6 +45,15 @@ public:
 	*/
 	template<typename T>
 	T* GetComponent();
+
+protected:
+	// Name of the game object
+	std::string Name = "";
+
+	// List of all components attached to this game object.
+	std::vector<IComponent*> ComponentsList;
+
+	bool bShouldUpdate = false;
 };
 
 // Template definitions

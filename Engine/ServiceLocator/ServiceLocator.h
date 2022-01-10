@@ -6,9 +6,6 @@
  */
 class ServiceLocator
 {
-private:
-	ServiceLocator() { };
-	static CCameraComponent* ActiveCamera;
 public:
 	/**
 	 * Sets the current active camera
@@ -19,4 +16,8 @@ public:
 	 * Returns the active camera
 	 */
 	static CCameraComponent* GetActiveCamera();
+
+private:
+	ServiceLocator() { };
+	static CCameraComponent* ActiveCamera;
 };

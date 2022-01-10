@@ -6,9 +6,10 @@
  */
 class TextureLoader
 {
-private:
-	TextureLoader() {};
 public:
 	static unsigned char* LoadImage(const std::string& InFileLocation, int& OutWidth, int& OutHeight, int& OutNrChannels);
 	static void ClearLoadedImageMemory(unsigned char* ImageData);
+
+private:
+	TextureLoader() {};
 };
