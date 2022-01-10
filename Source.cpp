@@ -173,12 +173,21 @@ int main()
 	};
 	
 
-	CShaderProgram DefaultShader("Engine/Shaders/OpenGL Shaders/Default/DefaultVertexShader.vert", "Engine/Shaders/OpenGL Shaders/Default/DefaultFragmentShader.frag");
-	CShaderProgram LightShader("Engine/Shaders/OpenGL Shaders/Light Shaders/LightShader.vert", "Engine/Shaders/OpenGL Shaders/Light Shaders/LightShader.frag");
+	CShaderProgram DefaultShader;
+	CShaderProgram LightShader(ShaderConstants::DEFAULT_LIGHT_SHADER);
 	DefaultShader.Activate();
-	DefaultShader.SetVec3("lightColor", glm::vec3(0.0f, 1.0f, 1.0f));
-	DefaultShader.SetVec3("lightPos", glm::vec3(2.0f, 2.0f, 2.0f));
+	DefaultShader.SetVec3("LightPos", glm::vec3(2.0f, 2.0f, 2.0f));
+	
+	DefaultShader.SetVec3("Material.Ambient", glm::vec3(1.0f, 0.5f, 0.31f));
+	DefaultShader.SetVec3("Material.Diffuse", glm::vec3(1.0f, 0.5f, 0.31f));
+	DefaultShader.SetVec3("Material.Specular", glm::vec3(0.5f, 0.5f, 0.5f));
 
+	DefaultShader.SetVec3("Light.Ambient", glm::vec3(0.2f, 0.2f, 0.2f));
+	DefaultShader.SetVec3("Light.Diffuse", glm::vec3(0.5f, 0.5f, 0.5f));
+	DefaultShader.SetVec3("Light.Specular", glm::vec3(1.0f, 1.0f, 1.0f));
+
+
+	DefaultShader.SetFloat("Material.Shininess", 32.0f);
 	LightShader.Activate();
 	LightShader.SetVec3("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
 	LightShader.SetVec3("lightColor", glm::vec3(0.0f, 1.0f, 1.0f));
@@ -251,7 +260,7 @@ int main()
 
 		DefaultShader.SetMat4("ViewMatrix", CameraRef->GetViewMatrix());
 		DefaultShader.SetMat4("ProjectionMatrix", CameraRef->GetProjectionMatrix(&Window));
-		DefaultShader.SetVec3("viewPos", CameraRef->GetParentTransformationComponent()->GetPosition());
+		DefaultShader.SetVec3("ViewPosition", CameraRef->GetParentTransformationComponent()->GetPosition());
 
 		
 		for (unsigned int i = 0; i < 10; i++)

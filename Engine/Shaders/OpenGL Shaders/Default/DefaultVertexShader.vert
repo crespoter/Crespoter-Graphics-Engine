@@ -4,7 +4,7 @@ layout (location = 1) in vec2 aTexCoords;
 layout (location = 2) in vec3 aNormal;
 
 out vec2 texCoords;
-out vec3 normal;
+out vec3 Normal;
 out vec3 FragPos;
 
 uniform mat4 ModelMatrix;
@@ -17,6 +17,6 @@ void main()
 	FragPos = vec3(ModelMatrix * vec4(aPos, 1.0));
 
 	texCoords = aTexCoords;
-	// TODO: Do not do inverse in shader
-	normal = mat3(transpose(inverse(ModelMatrix))) * aNormal;
+	// TODO: Do not do inverse in shader. Pass it as uniform
+	Normal = mat3(transpose(inverse(ModelMatrix))) * aNormal;
 }

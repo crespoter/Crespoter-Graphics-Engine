@@ -166,6 +166,7 @@
     <ClInclude Include="Engine\Component\CameraComponent\FreeCameraComponent\FreeCameraComponent.h" />
     <ClInclude Include="Engine\Component\Component.h" />
     <ClInclude Include="Engine\Component\TransformationComponent\TransformationComponent.h" />
+    <ClInclude Include="Engine\Constants\ShaderConstants.h" />
     <ClInclude Include="Engine\GameObject\GameObject.h" />
     <ClInclude Include="Engine\ShaderProgram\ShaderProgram.h" />
     <ClInclude Include="Engine\ServiceLocator\ServiceLocator.h" />

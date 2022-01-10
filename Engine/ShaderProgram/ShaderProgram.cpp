@@ -5,29 +5,17 @@
 
 CShaderProgram::CShaderProgram(const std::string& VertexShaderFilePath, const std::string& FragmentShaderFilePath)
 {
-	// Read shader files
-	std::string VertexShaderCode = ReadFromFile(VertexShaderFilePath);
-	std::string FragmentShaderCode = ReadFromFile(FragmentShaderFilePath);
-	// Compile shaders
-	unsigned int VertexShaderID = CompileShader(GL_VERTEX_SHADER, VertexShaderCode.c_str());
-	unsigned int FragmentShaderID = CompileShader(GL_FRAGMENT_SHADER, FragmentShaderCode.c_str());
-	// Create program
-	ProgramID = glCreateProgram();
-	glAttachShader(ProgramID, VertexShaderID);
-	glAttachShader(ProgramID, FragmentShaderID);
-	glLinkProgram(ProgramID);
-	// Print any linking errors
-	int Success;
-	glGetProgramiv(ProgramID, GL_LINK_STATUS, &Success);
-	if (!Success)
-	{
-		char InfoLog[512];
-		glGetProgramInfoLog(ProgramID, 512, NULL, InfoLog);
-		std::cout << "Error occurred while linking program\n" << InfoLog << std::endl; 
-	}
-	// Delete shaders since they are linked now
-	glDeleteShader(VertexShaderID);
-	glDeleteShader(FragmentShaderID);
+	Initialize(VertexShaderFilePath, FragmentShaderFilePath);
+}
+
+CShaderProgram::CShaderProgram(const FShaderPathDefinition ShaderPathDefinition)
+{
+	Initialize(ShaderPathDefinition.VertexShaderPath, ShaderPathDefinition.FragmentShaderPath);
+}
+
+CShaderProgram::CShaderProgram()
+{
+	Initialize(ShaderConstants::DEFAULT_SHADER.VertexShaderPath, ShaderConstants::DEFAULT_SHADER.FragmentShaderPath);
 }
 
 void CShaderProgram::Activate()
@@ -99,5 +87,32 @@ unsigned int CShaderProgram::CompileShader(unsigned int ShaderType, const char* 
 		std::cout << "Error occurred compiling shader" << InfoLog << std::endl;
 	}
 	return ShaderID;
+}
+
+void CShaderProgram::Initialize(const std::string& VertexShaderPath, const std::string& FragmentShaderPath)
+{
+	// Read shader files
+	std::string VertexShaderCode = ReadFromFile(VertexShaderPath);
+	std::string FragmentShaderCode = ReadFromFile(FragmentShaderPath);
+	// Compile shaders
+	unsigned int VertexShaderID = CompileShader(GL_VERTEX_SHADER, VertexShaderCode.c_str());
+	unsigned int FragmentShaderID = CompileShader(GL_FRAGMENT_SHADER, FragmentShaderCode.c_str());
+	// Create program
+	ProgramID = glCreateProgram();
+	glAttachShader(ProgramID, VertexShaderID);
+	glAttachShader(ProgramID, FragmentShaderID);
+	glLinkProgram(ProgramID);
+	// Print any linking errors
+	int Success;
+	glGetProgramiv(ProgramID, GL_LINK_STATUS, &Success);
+	if (!Success)
+	{
+		char InfoLog[512];
+		glGetProgramInfoLog(ProgramID, 512, NULL, InfoLog);
+		std::cout << "Error occurred while linking program\n" << InfoLog << std::endl;
+	}
+	// Delete shaders since they are linked now
+	glDeleteShader(VertexShaderID);
+	glDeleteShader(FragmentShaderID);
 }
 

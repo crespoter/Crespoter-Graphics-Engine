@@ -92,6 +92,9 @@
     <ClInclude Include="Engine\ServiceLocator\ServiceLocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Constants\ShaderConstants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Textures\rickroll.jpg">

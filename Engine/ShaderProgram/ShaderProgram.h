@@ -1,11 +1,12 @@
 #pragma  once
 #include <iostream>
 #include <glm/gtc/type_ptr.hpp>
+#include "../Constants/ShaderConstants.h"
+
 
 
 class CShaderProgram {
 public:
-	unsigned int ProgramID;
 	/**
 	 * Initializes shader program with vertex, fragment and optional geometry shader
 	 * @param VertexShaderFilePath(std::string): Relative path to the vertex shader
@@ -13,6 +14,17 @@ public:
 	 * @param GeometryShaderFilePath(std::string): Optional path to geometry shader. Passing null would compile without geometry shader.
 	 */
 	CShaderProgram(const std::string &VertexShaderFilePath, const std::string &FragmentShaderFilePath);
+
+	/**
+	* Initializes shader program from the predefined path definitions
+	*/
+	CShaderProgram(const FShaderPathDefinition ShaderPathDefinition);
+	
+	/**
+	* Initializes shader with the default shader
+	*/
+	CShaderProgram();
+
 	
 	/**
 	 * Activates the shader program
@@ -62,6 +74,8 @@ public:
 	 void SetVec4(const std::string& VariableName, glm::vec4 Value) const;
 
 private:
+	unsigned int ProgramID = 0;
+
 	/**
 	 * Helper function to read from a file
 	 * @param FilePath(std::string) Path to file
@@ -73,5 +87,9 @@ private:
 	 * @param ShaderType(unsigned int): Type of shader from the glad.h library.
 	 */
 	 unsigned int CompileShader(unsigned int ShaderType, const char* SourceCode);
-	
+
+	 /**
+	 * Initializes ShaderProgram with the provided shader paths.
+	 */
+	 void Initialize(const std::string &VertexShaderPath, const std::string &FragmentShaderPath);
 };
