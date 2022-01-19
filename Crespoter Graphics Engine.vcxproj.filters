@@ -54,6 +54,24 @@
     <ClCompile Include="Engine\ServiceLocator\ServiceLocator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Component\LightComponents\DirectionalLightComponent\DirectionalLightComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\LightManager\LightManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\LightComponents\FlashLightComponent\FlashLightComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\LightComponents\PointLightComponent\PointLightComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Core\Core.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Model\Mesh\Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\ShaderProgram\ShaderProgram.h">
@@ -95,17 +113,40 @@
     <ClInclude Include="Engine\Constants\ShaderConstants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Component\LightComponents\DirectionalLightComponent\DirectionalLightComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\LightManager\LightManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\LightComponents\FlashLightComponent\FlashLightComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\LightComponents\PointLightComponent\PointLightComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Core\Core.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Material\Material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Material\Material.cpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Model\Mesh\Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Textures\rickroll.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Assets\Textures\brick-wall.jpg">
+    <Image Include="Assets\Textures\wood-box.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Engine\Shaders\OpenGL Shaders\Light Shaders\LightShader.vert" />
-    <None Include="Engine\Shaders\OpenGL Shaders\Light Shaders\LightShader.frag" />
+    <Image Include="Assets\Textures\rickroll-grayscale.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

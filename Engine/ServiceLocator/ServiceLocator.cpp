@@ -1,18 +1,15 @@
 #include "ServiceLocator.h"
+#include <assert.h>
 
 CCameraComponent* ServiceLocator::ActiveCamera = nullptr;
 
-void ServiceLocator::Provide(CCameraComponent* ActiveCamera)
+void ServiceLocator::Provide(CCameraComponent* InActiveCamera)
 {
-	assert(ActiveCamera != nullptr);
+	assert(InActiveCamera != nullptr);
+	ActiveCamera = InActiveCamera;
 }
 
 CCameraComponent* ServiceLocator::GetActiveCamera()
 {
-	if (!ActiveCamera)
-	{
-		throw std::runtime_error("Error getting active camera: Active Camera is not set");
-	}
 	return ActiveCamera;
 }
-

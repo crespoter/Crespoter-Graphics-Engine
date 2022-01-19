@@ -42,7 +42,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -121,7 +121,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\Work\Crespoter-Graphics-Engine\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -150,8 +150,14 @@
     <ClCompile Include="Engine\Component\CameraComponent\CameraComponent.cpp" />
     <ClCompile Include="Engine\Component\CameraComponent\FreeCameraComponent\FreeCameraComponent.cpp" />
     <ClCompile Include="Engine\Component\Component.cpp" />
+    <ClCompile Include="Engine\Component\Core\Core.cpp" />
+    <ClCompile Include="Engine\Component\LightComponents\DirectionalLightComponent\DirectionalLightComponent.cpp" />
+    <ClCompile Include="Engine\Component\LightComponents\FlashLightComponent\FlashLightComponent.cpp" />
+    <ClCompile Include="Engine\Component\LightComponents\PointLightComponent\PointLightComponent.cpp" />
     <ClCompile Include="Engine\Component\TransformationComponent\TransformationComponent.cpp" />
     <ClCompile Include="Engine\GameObject\GameObject.cpp" />
+    <ClCompile Include="Engine\LightManager\LightManager.cpp" />
+    <ClCompile Include="Engine\Model\Mesh\Mesh.cpp" />
     <ClCompile Include="Engine\ShaderProgram\ShaderProgram.cpp" />
     <ClCompile Include="Engine\ServiceLocator\ServiceLocator.cpp" />
     <ClCompile Include="Engine\Texture\OpenGLTexture\OpenGLTexture.cpp" />
@@ -165,9 +171,17 @@
     <ClInclude Include="Engine\Component\CameraComponent\CameraComponent.h" />
     <ClInclude Include="Engine\Component\CameraComponent\FreeCameraComponent\FreeCameraComponent.h" />
     <ClInclude Include="Engine\Component\Component.h" />
+    <ClInclude Include="Engine\Component\Core\Core.h" />
+    <ClInclude Include="Engine\Component\LightComponents\DirectionalLightComponent\DirectionalLightComponent.h" />
+    <ClInclude Include="Engine\Component\LightComponents\FlashLightComponent\FlashLightComponent.h" />
+    <ClInclude Include="Engine\Component\LightComponents\PointLightComponent\PointLightComponent.h" />
     <ClInclude Include="Engine\Component\TransformationComponent\TransformationComponent.h" />
     <ClInclude Include="Engine\Constants\ShaderConstants.h" />
     <ClInclude Include="Engine\GameObject\GameObject.h" />
+    <ClInclude Include="Engine\LightManager\LightManager.h" />
+    <ClInclude Include="Engine\Material\Material.cpp" />
+    <ClInclude Include="Engine\Material\Material.h" />
+    <ClInclude Include="Engine\Model\Mesh\Mesh.h" />
     <ClInclude Include="Engine\ShaderProgram\ShaderProgram.h" />
     <ClInclude Include="Engine\ServiceLocator\ServiceLocator.h" />
     <ClInclude Include="Engine\Texture\OpenGLTexture\OpenGLTexture.h" />
@@ -177,12 +191,9 @@
     <ClInclude Include="Engine\Window\WindowInterface.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Assets\Textures\brick-wall.jpg" />
+    <Image Include="Assets\Textures\rickroll-grayscale.jpg" />
     <Image Include="Assets\Textures\rickroll.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Engine\Shaders\OpenGL Shaders\Light Shaders\LightShader.frag" />
-    <None Include="Engine\Shaders\OpenGL Shaders\Light Shaders\LightShader.vert" />
+    <Image Include="Assets\Textures\wood-box.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

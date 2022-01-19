@@ -7,7 +7,6 @@
 #include "Engine/GameObject/GameObject.h"
 #include "Engine/Component/TransformationComponent/TransformationComponent.h"
 #include "Engine/Component/CameraComponent/CameraComponent.h"
-#include "Engine/ServiceLocator/ServiceLocator.h"
 #include "Engine/Component/CameraComponent/FreeCameraComponent/FreeCameraComponent.h"
 
 void ProcessInput(COpenGLWindow &InWindow);
@@ -65,49 +64,6 @@ const float CubeVertices[] = {
 	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 };
 
-const float LightCubeVertices[] = {
-	-0.5f, -0.5f, -0.5f,
-	 0.5f, -0.5f, -0.5f,
-	 0.5f,  0.5f, -0.5f,
-	 0.5f,  0.5f, -0.5f,
-	-0.5f,  0.5f, -0.5f,
-	-0.5f, -0.5f, -0.5f,
-
-	-0.5f, -0.5f,  0.5f,
-	 0.5f, -0.5f,  0.5f,
-	 0.5f,  0.5f,  0.5f,
-	 0.5f,  0.5f,  0.5f,
-	-0.5f,  0.5f,  0.5f,
-	-0.5f, -0.5f,  0.5f,
-
-	-0.5f,  0.5f,  0.5f,
-	-0.5f,  0.5f, -0.5f,
-	-0.5f, -0.5f, -0.5f,
-	-0.5f, -0.5f, -0.5f,
-	-0.5f, -0.5f,  0.5f,
-	-0.5f,  0.5f,  0.5f,
-
-	 0.5f,  0.5f,  0.5f,
-	 0.5f,  0.5f, -0.5f,
-	 0.5f, -0.5f, -0.5f,
-	 0.5f, -0.5f, -0.5f,
-	 0.5f, -0.5f,  0.5f,
-	 0.5f,  0.5f,  0.5f,
-
-	-0.5f, -0.5f, -0.5f,
-	 0.5f, -0.5f, -0.5f,
-	 0.5f, -0.5f,  0.5f,
-	 0.5f, -0.5f,  0.5f,
-	-0.5f, -0.5f,  0.5f,
-	-0.5f, -0.5f, -0.5f,
-
-	-0.5f,  0.5f, -0.5f,
-	 0.5f,  0.5f, -0.5f,
-	 0.5f,  0.5f,  0.5f,
-	 0.5f,  0.5f,  0.5f,
-	-0.5f,  0.5f,  0.5f,
-	-0.5f,  0.5f, -0.5f,
-};
 
 
 
@@ -141,24 +97,6 @@ int main()
 
 
 
-
-	// Light VAO
-	unsigned int LightVAO;
-	glGenVertexArrays(1, &LightVAO);
-	glBindVertexArray(LightVAO);
-
-
-	// Vertex buffer object for array buffer. Vertex data would be stored here
-	glGenBuffers(1, &VBO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(LightCubeVertices), LightCubeVertices, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-
-	
-
 	glm::vec3 CubePositions[] = {
 		glm::vec3(0.0f,  0.0f,  0.0f),
 		glm::vec3(2.0f,  5.0f, -15.0f),
@@ -172,28 +110,23 @@ int main()
 		glm::vec3(-1.3f,  1.0f, -1.5f)
 	};
 	
+	COpenGLTexture RickRollDiffuseTexture("Assets/Textures/rickroll.jpg");
+	COpenGLTexture RickRollSpecularTexture("Assets/Textures/rickroll-grayscale.jpg");
 
 	CShaderProgram DefaultShader;
-	CShaderProgram LightShader(ShaderConstants::DEFAULT_LIGHT_SHADER);
 	DefaultShader.Activate();
 	DefaultShader.SetVec3("LightPos", glm::vec3(2.0f, 2.0f, 2.0f));
-	
-	DefaultShader.SetVec3("Material.Ambient", glm::vec3(1.0f, 0.5f, 0.31f));
-	DefaultShader.SetVec3("Material.Diffuse", glm::vec3(1.0f, 0.5f, 0.31f));
-	DefaultShader.SetVec3("Material.Specular", glm::vec3(0.5f, 0.5f, 0.5f));
-
 	DefaultShader.SetVec3("Light.Ambient", glm::vec3(0.2f, 0.2f, 0.2f));
 	DefaultShader.SetVec3("Light.Diffuse", glm::vec3(0.5f, 0.5f, 0.5f));
 	DefaultShader.SetVec3("Light.Specular", glm::vec3(1.0f, 1.0f, 1.0f));
 
 
 	DefaultShader.SetFloat("Material.Shininess", 32.0f);
-	LightShader.Activate();
-	LightShader.SetVec3("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
-	LightShader.SetVec3("lightColor", glm::vec3(0.0f, 1.0f, 1.0f));
+	RickRollDiffuseTexture.BindTexture(&DefaultShader, "Material.Diffuse", 0);
+	RickRollSpecularTexture.BindTexture(&DefaultShader, "Material.Specular", 1);
 
-	COpenGLTexture RickRollTexture("Assets/Textures/rickroll.jpg");
-	COpenGLTexture BrickTexture("Assets/Textures/brick-wall.jpg");
+
+
 	glm::mat4 ModelMatrix = glm::mat4(1.0f);
 
 
@@ -210,7 +143,7 @@ int main()
 	CameraTransformationComponent->MoveTo(glm::vec3(0.0f, 0.0f, -3.0f));
 	
 	CFreeCameraComponent::FFreeCameraControlInput CameraControlInput;
-	CameraControlInput.CameraMoveSpeed = 0.001f;
+	CameraControlInput.CameraMoveSpeed = 0.05f;
 	CameraControlInput.MouseSensitivity = 0.1f;
 	CameraControlInput.MoveBackwardKey = GLFW_KEY_S;
 	CameraControlInput.MoveForwardKey = GLFW_KEY_W;
@@ -228,7 +161,7 @@ int main()
 
 	for (int i = 0; i < 10; i++)
 	{
-		GameObject[i] = new CGameObject("Rick roll cube");
+		GameObject[i] = new CGameObject("Rick Cube");
 		GameObject[i]->AddComponent<CTransformationComponent>();
 		GameObject[i]->GetComponent<CTransformationComponent>()->Translate(CubePositions[i]);
 	}
@@ -238,7 +171,6 @@ int main()
 	Camera.Start();
 	CameraRef->SetFov(75.0f);
 
-	ServiceLocator::Provide(CameraRef);
 
 	while (!Window.ShouldWindowClose())
 	{
@@ -255,8 +187,6 @@ int main()
 		DefaultShader.Activate();
 
 		glBindVertexArray(VAO);
-		RickRollTexture.BindTexture(&DefaultShader, "Texture", 0);
-		BrickTexture.BindTexture(&DefaultShader, "Texture2", 1);
 
 		DefaultShader.SetMat4("ViewMatrix", CameraRef->GetViewMatrix());
 		DefaultShader.SetMat4("ProjectionMatrix", CameraRef->GetProjectionMatrix(&Window));
@@ -272,14 +202,6 @@ int main()
 			
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
-
-		glBindVertexArray(LightVAO);
-		LightShader.Activate();
-		LightShader.SetMat4("ViewMatrix", CameraRef->GetViewMatrix());
-		LightShader.SetMat4("ProjectionMatrix", CameraRef->GetProjectionMatrix(&Window));
-		LightShader.SetMat4("ModelMatrix", LightGameObject.GetComponent<CTransformationComponent>()->GetModelMatrix());
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-
 		// Uninitialize
 		glBindVertexArray(0);
 		glfwPollEvents();

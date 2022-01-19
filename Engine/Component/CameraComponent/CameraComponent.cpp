@@ -3,10 +3,15 @@
 #include "../../GameObject/GameObject.h"
 #include "../TransformationComponent/TransformationComponent.h"
 #include "../../Window/WindowInterface.h"
+#include "../../ServiceLocator/ServiceLocator.h"
 
 CCameraComponent::CCameraComponent() : IComponent(CAMERA_COMPONENT_NAME)
-{
-	
+{	
+	// If there is no camera registered, register this as the active camera
+	if (ServiceLocator::GetActiveCamera() == nullptr)
+	{
+		ServiceLocator::Provide(this);
+	}
 }
 
 glm::mat4 CCameraComponent::GetViewMatrix() const

@@ -1,5 +1,7 @@
 #pragma once
-#include "../Component/CameraComponent/CameraComponent.h"
+
+class CCameraComponent;
+class LightManager;
 
 /**
  * static class that keeps a track of the engine state.
@@ -20,4 +22,5 @@ public:
 private:
 	ServiceLocator() { };
 	static CCameraComponent* ActiveCamera;
+	static LightManager* LightManager;
 };
