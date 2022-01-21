@@ -126,7 +126,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;assimpd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -158,6 +158,7 @@
     <ClCompile Include="Engine\GameObject\GameObject.cpp" />
     <ClCompile Include="Engine\LightManager\LightManager.cpp" />
     <ClCompile Include="Engine\Model\Mesh\Mesh.cpp" />
+    <ClCompile Include="Engine\Model\Model.cpp" />
     <ClCompile Include="Engine\ShaderProgram\ShaderProgram.cpp" />
     <ClCompile Include="Engine\ServiceLocator\ServiceLocator.cpp" />
     <ClCompile Include="Engine\Texture\OpenGLTexture\OpenGLTexture.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="Engine\Material\Material.cpp" />
     <ClInclude Include="Engine\Material\Material.h" />
     <ClInclude Include="Engine\Model\Mesh\Mesh.h" />
+    <ClInclude Include="Engine\Model\Model.h" />
     <ClInclude Include="Engine\ShaderProgram\ShaderProgram.h" />
     <ClInclude Include="Engine\ServiceLocator\ServiceLocator.h" />
     <ClInclude Include="Engine\Texture\OpenGLTexture\OpenGLTexture.h" />

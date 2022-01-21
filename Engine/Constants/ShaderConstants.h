@@ -16,4 +16,5 @@ namespace ShaderConstants
 {
 	const FShaderPathDefinition DEFAULT_SHADER = FShaderPathDefinition("Engine/Shaders/OpenGL Shaders/Default/DefaultVertexShader.vert", "Engine/Shaders/OpenGL Shaders/Default/DefaultFragmentShader.frag");
 	const unsigned int MAX_POINT_LIGHTS = 10;
+	const unsigned int MAX_TEXTURES = 10;
 }

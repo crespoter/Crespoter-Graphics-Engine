@@ -19,6 +19,22 @@ void COpenGLTexture::LoadTexture(const std::string& InFilePath)
 		std::cout << "Failed to load Texture file " << InFilePath << std::endl;
 		return;
 	}
+	GLenum TextureFormat = -1;
+	switch (TextureInfo.NRChannels)
+	{
+		case 1:
+			TextureFormat = GL_RED;
+			break;
+		case 3:
+			TextureFormat = GL_RGB;
+			break;
+		case 4:
+			TextureFormat = GL_RGBA;
+			break;
+	}
+
+	assert(TextureFormat != -1); // The texture type is unidentified.
+
 	glGenTextures(1, &TextureID);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);

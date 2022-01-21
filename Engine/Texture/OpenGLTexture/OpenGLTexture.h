@@ -9,7 +9,7 @@ public:
 
 	void LoadTexture(const std::string& InFilePath) override;
 
-	void BindTexture(CShaderProgram* WindowRef, const std::string& UniformName, int TextureUnit) override;
+	void BindTexture(CShaderProgram* ShaderProgram, const std::string& UniformName, int TextureUnit) override;
 
 private:
 	unsigned int TextureID = 0;

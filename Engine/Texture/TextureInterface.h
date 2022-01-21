@@ -6,6 +6,14 @@ class CShaderProgram;
 /**
  * Interface class for loading textures into GPU
  */
+enum class ETextureType
+{
+	NONE,
+	DIFFUSE,
+	SPECULAR,
+	MAX
+};
+
 class ITextureInterface
 {
 public:
@@ -15,6 +23,7 @@ public:
 		int Height = 0;
 		int NRChannels = 0;
 	};
+	ETextureType TextureType = ETextureType::NONE;
 protected:
 	ITextureInterface() {};
 	FTextureInfo TextureInfo = FTextureInfo();

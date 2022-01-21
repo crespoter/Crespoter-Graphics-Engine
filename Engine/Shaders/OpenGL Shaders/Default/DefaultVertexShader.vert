@@ -3,6 +3,7 @@ layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec2 aTexCoords;
 layout (location = 2) in vec3 aNormal;
 
+
 out vec2 TexCoords;
 out vec3 Normal;
 out vec3 FragPos;
@@ -13,8 +14,8 @@ uniform mat4 ProjectionMatrix;
 
 void main()
 {
-	gl_Position =  ProjectionMatrix * ViewMatrix *  ModelMatrix * vec4(aPos.x, aPos.y, aPos.z, 1.0);
-	FragPos = vec3(ModelMatrix * vec4(aPos, 1.0));
+	gl_Position =   ProjectionMatrix * ViewMatrix *  ModelMatrix * vec4(aPos.x, aPos.y, aPos.z, 1.0);
+	FragPos =   vec3(ModelMatrix * vec4(aPos, 1.0));
 
 	TexCoords = aTexCoords;
 	// TODO: Do not do inverse in shader. Pass it as uniform
