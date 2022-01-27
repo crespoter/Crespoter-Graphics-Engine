@@ -21,7 +21,7 @@ int main()
 	Window.SetClearColor(0.0f, 0.5f, 0.0f, 1.0f);
 
 
-	CModel Backpack("Assets/Models/Backpack/backpack.obj");
+	CModel Backpack("Assets/Models/Room/room.obj");
 
 
 
@@ -33,7 +33,7 @@ int main()
 	DefaultShader.SetVec3("Light.Specular", glm::vec3(1.0f, 1.0f, 1.0f));
 
 
-	DefaultShader.SetFloat("Material.Shininess", 32.0f);
+	DefaultShader.SetFloat("Material.Shininess", 0.0f);
 
 	glm::mat4 ModelMatrix = glm::mat4(1.0f);
 
@@ -81,7 +81,6 @@ int main()
 
 		Window.SwapBuffers();
 		Window.Clear();
-		// Bind main VAO, shaders
 		DefaultShader.Activate();
 
 

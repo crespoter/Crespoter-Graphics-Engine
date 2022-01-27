@@ -3,16 +3,18 @@
 #include <stddef.h>
 #include <assert.h>
 #include <string>
+#include "../../ShaderProgram/ShaderProgram.h"
 
 
 
 
-CMesh::CMesh(const std::vector<FVertex> &InVertices, const std::vector<unsigned int> &InIndices, std::vector<COpenGLTexture> InTextures)
+CMesh::CMesh(const std::vector<FVertex> &InVertices, const std::vector<unsigned int> &InIndices, const std::vector<COpenGLTexture> &InTextures, const FMaterial &InMaterial)
 {
 	Vertices = InVertices;
 	Indices = InIndices;
 	IndexCount = Indices.size();
 	Textures = InTextures;
+	MeshMaterial = InMaterial;
 	
 	glGenVertexArrays(1, &VertexArrayObject);
 	glGenBuffers(1, &VertexBufferObject);
@@ -39,7 +41,6 @@ CMesh::CMesh(const std::vector<FVertex> &InVertices, const std::vector<unsigned 
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(FVertex), (void*)offsetof(FVertex, Normal));
 	glEnableVertexAttribArray(2);
 
-
 	// Unbind
 	glBindVertexArray(0);
 }
@@ -56,19 +57,28 @@ void CMesh::Draw(CShaderProgram* ShaderProgram)
 	// Bind textures
 	for (unsigned int i = 0; i < Textures.size(); i++)
 	{
-		std::string UniformName = "Material";
 		switch (Textures[i].TextureType)
 		{
 			case ETextureType::DIFFUSE:
-				UniformName +=  ".Diffuse" + std::to_string(DiffuseCount++);
+				"Material.Diffuse" + std::to_string(DiffuseCount++);
+				Textures[i].BindTexture(ShaderProgram, "Material.Diffuse", i);
 				break;
 			case ETextureType::SPECULAR:
-				UniformName +=  ".Specular" + std::to_string(SpecularCount++);
+				"Material.Specular" + std::to_string(SpecularCount++);
+				Textures[i].BindTexture(ShaderProgram, "Material.Specular", i);
 				break;
 		}
 
-		Textures[i].BindTexture(ShaderProgram, UniformName ,i);
 	}
+	// Set Uniforms
+	ShaderProgram->SetFloat("Material.Shininess", MeshMaterial.Shininess);
+	ShaderProgram->SetFloat("Material.ShininessStrength", MeshMaterial.ShininessStrength);
+	ShaderProgram->SetBool("Material.bShouldUseDiffuseTexture", MeshMaterial.bShouldUseDiffuseTexture);
+	ShaderProgram->SetBool("Material.bShouldUseSpecularTexture", MeshMaterial.bShouldUseSpecularTexture);
+	ShaderProgram->SetVec3("Material.AmbientColor", MeshMaterial.AmbientColor);
+	ShaderProgram->SetVec3("Material.DiffuseColor", MeshMaterial.DiffuseColor);
+	ShaderProgram->SetVec3("Material.SpecularColor", MeshMaterial.SpecularColor);
+	
 	// Draw Mesh
 	glBindVertexArray(VertexArrayObject);
 	glDrawElements(GL_TRIANGLES, IndexCount, GL_UNSIGNED_INT, 0);

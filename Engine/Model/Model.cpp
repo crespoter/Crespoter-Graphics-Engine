@@ -7,7 +7,7 @@ CModel::CModel(const std::string& InModelPath)
 	Assimp::Importer ModelImporter;
 	const aiScene* AssimpScene = ModelImporter.ReadFile(ModelFilePath, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 	
-	if (!AssimpScene || AssimpScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !AssimpScene->mRootNode) // if is Not Zero
+	if (!AssimpScene || AssimpScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !AssimpScene->mRootNode)
 	{
 		std::cout << "Assimp error loading model:: " << ModelImporter.GetErrorString() << std::endl;
 		return;
@@ -79,13 +79,60 @@ CMesh CModel::ProcessMesh(aiMesh* AssimpMesh, const aiScene* AssimpScene)
 
 	aiMaterial* AssimpMaterial = AssimpScene->mMaterials[AssimpMesh->mMaterialIndex];
 	std::vector<COpenGLTexture> Textures;
-	std::vector<COpenGLTexture> DiffuseMaps = LoadMaterialTextures(AssimpMaterial, aiTextureType_DIFFUSE, ETextureType::DIFFUSE);
-	std::vector<COpenGLTexture> SpecularMaps = LoadMaterialTextures(AssimpMaterial, aiTextureType_SPECULAR, ETextureType::SPECULAR);
+	FMaterial Material;
 
-	Textures.insert(Textures.end(), DiffuseMaps.begin(), DiffuseMaps.end());
-	Textures.insert(Textures.end(), SpecularMaps.begin(), SpecularMaps.end());
+	if (AssimpMaterial->GetTextureCount(aiTextureType_DIFFUSE) != 0)
+	{ 
+		std::vector<COpenGLTexture> DiffuseMaps = LoadMaterialTextures(AssimpMaterial, aiTextureType_DIFFUSE, ETextureType::DIFFUSE);
+		Textures.insert(Textures.end(), DiffuseMaps.begin(), DiffuseMaps.end());
+		Material.bShouldUseDiffuseTexture = true;
+	}
+	else
+	{
+		// No diffuse textures were found. This mesh would use the associated material instead
+		aiColor4D AssimpColor;
+		if (aiGetMaterialColor(AssimpMaterial, AI_MATKEY_COLOR_DIFFUSE, &AssimpColor) == AI_SUCCESS)
+		{
+			Material.DiffuseColor = glm::vec4(AssimpColor.r, AssimpColor.g, AssimpColor.b, AssimpColor.a);
+			Material.bShouldUseDiffuseTexture = false;
+		}
+		else
+		{
+			// Set to use material texture so that it would load the failed texture.
+			Material.bShouldUseDiffuseTexture = true;
+		}
+	}
 
-	return CMesh(Vertices, Indices, Textures);
+	if (AssimpMaterial->GetTextureCount(aiTextureType_SPECULAR) > 0)
+	{
+		std::vector<COpenGLTexture> SpecularMaps = LoadMaterialTextures(AssimpMaterial, aiTextureType_SPECULAR, ETextureType::SPECULAR);
+		Textures.insert(Textures.end(), SpecularMaps.begin(), SpecularMaps.end());
+		Material.bShouldUseSpecularTexture = true;
+	}
+	else
+	{
+		// No diffuse textures were found. This mesh would use the associated material instead
+		aiColor4D AssimpColor;
+		if (aiGetMaterialColor(AssimpMaterial, AI_MATKEY_COLOR_SPECULAR, &AssimpColor) == AI_SUCCESS)
+		{
+			Material.SpecularColor = glm::vec4(AssimpColor.r, AssimpColor.g, AssimpColor.b, AssimpColor.a);
+			Material.bShouldUseSpecularTexture = false;
+		}
+		else
+		{
+			// Set to use material texture so that it would load the failed texture.
+			Material.bShouldUseSpecularTexture = true;
+		}
+	}
+	if (aiGetMaterialFloat(AssimpMaterial, AI_MATKEY_SHININESS, &Material.Shininess) != AI_SUCCESS)
+	{
+		Material.Shininess = 0.0f;
+	}
+	if (aiGetMaterialFloat(AssimpMaterial, AI_MATKEY_SHININESS_STRENGTH, &Material.ShininessStrength) != AI_SUCCESS)
+	{
+		Material.Shininess = 1.0f;
+	}
+	return CMesh(Vertices, Indices, Textures, Material);
 
 }
 
@@ -104,7 +151,7 @@ std::vector<COpenGLTexture> CModel::LoadMaterialTextures(aiMaterial* AssimpMater
 		if (ExistingTextureIterator == LoadedTexturesMap.end())
 		{
 			// Create texture object to store the texture
-			COpenGLTexture LoadedTexture = (Directory + '/' + TexturePathString);
+			COpenGLTexture LoadedTexture(Directory + '/' + TexturePathString);
 			LoadedTexture.TextureType = TextureType;
 			LoadedTexturesMap.insert(std::pair<std::string, COpenGLTexture>(TexturePathString, LoadedTexture));
 			Textures.push_back(LoadedTexture);
