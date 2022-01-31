@@ -21,13 +21,13 @@ int main()
 	Window.SetClearColor(0.0f, 0.5f, 0.0f, 1.0f);
 
 
-	CModel Backpack("Assets/Models/Room/room.obj");
+	CModel Backpack("Assets/Models/Garden/garden.obj");
 
 
 
 	CShaderProgram DefaultShader;
 	DefaultShader.Activate();
-	DefaultShader.SetVec3("LightPos", glm::vec3(2.0f, 2.0f, 2.0f));
+	DefaultShader.SetVec3("LightPos", glm::vec3(2.0f, 10.0f, 2.0f));
 	DefaultShader.SetVec3("Light.Ambient", glm::vec3(0.2f, 0.2f, 0.2f));
 	DefaultShader.SetVec3("Light.Diffuse", glm::vec3(0.5f, 0.5f, 0.5f));
 	DefaultShader.SetVec3("Light.Specular", glm::vec3(1.0f, 1.0f, 1.0f));

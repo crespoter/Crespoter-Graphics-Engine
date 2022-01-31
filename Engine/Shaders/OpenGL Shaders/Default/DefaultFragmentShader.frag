@@ -68,9 +68,15 @@ void main()
 
 
 	vec3 SpecularColor = Material.SpecularColor;
+
 	if (Material.bShouldUseSpecularTexture)
 	{
 		SpecularColor = vec3(texture(Material.Specular0, TexCoords));
+	}
+	else
+	{
+		// Multiply by the diffuse color as there is no texture;
+		SpecularColor = SpecularColor * Material.DiffuseColor;
 	}
 
     vec3 SpecularComponent = Material.ShininessStrength * Light.Specular * (Spec * SpecularColor);  
