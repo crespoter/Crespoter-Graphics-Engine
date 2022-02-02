@@ -1,5 +1,6 @@
 #include "ObjectReferenceManager.h"
 #include <assert.h>
+#include "../../Constants/ShaderConstants.h"
 
 bool CObjectReferenceManager::bIsInitialized = false;
 
@@ -53,3 +54,28 @@ void CObjectReferenceManager::RemoveRenderComponent(CRenderComponent* InRenderCo
 	}
 }
 
+void CObjectReferenceManager::AddPointLightComponent(CPointLightComponent* InPointLightComponent)
+{
+	assert(InPointLightComponent != nullptr);
+	assert(PointLightComponents.size() < ShaderConstants::MAX_POINT_LIGHTS); // Maximum permitted point lights exceeded
+	PointLightComponents.push_back(InPointLightComponent);
+}
+
+void CObjectReferenceManager::RemovePointLightComponent(CPointLightComponent* InPointLightComponent)
+{
+	assert(InPointLightComponent != nullptr);
+	for (auto i = PointLightComponents.begin(); i != PointLightComponents.end(); i++)
+	{
+		if (*i == InPointLightComponent)
+		{
+			PointLightComponents.erase(i);
+			return;
+		}
+	}
+}
+
+
+void CObjectReferenceManager::UpdateDirectionalLightComponent(CDirectionalLightComponent* InDirectionalLightComponent)
+{
+	DirectionalLightComponent = InDirectionalLightComponent;
+}

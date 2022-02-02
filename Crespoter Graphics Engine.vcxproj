@@ -152,7 +152,6 @@
     <ClCompile Include="Engine\Component\Component.cpp" />
     <ClCompile Include="Engine\Core\Core.cpp" />
     <ClCompile Include="Engine\Component\LightComponents\DirectionalLightComponent\DirectionalLightComponent.cpp" />
-    <ClCompile Include="Engine\Component\LightComponents\FlashLightComponent\FlashLightComponent.cpp" />
     <ClCompile Include="Engine\Component\LightComponents\PointLightComponent\PointLightComponent.cpp" />
     <ClCompile Include="Engine\Component\RenderComponent\RenderComponent.cpp" />
     <ClCompile Include="Engine\Component\TransformationComponent\TransformationComponent.cpp" />
@@ -175,9 +174,9 @@
     <ClInclude Include="Engine\Component\CameraComponent\FreeCameraComponent\FreeCameraComponent.h" />
     <ClInclude Include="Engine\Component\Component.h" />
     <ClInclude Include="Configurations\Config.h" />
+    <ClInclude Include="Engine\Component\LightComponents\LightData.h" />
     <ClInclude Include="Engine\Core\Core.h" />
     <ClInclude Include="Engine\Component\LightComponents\DirectionalLightComponent\DirectionalLightComponent.h" />
-    <ClInclude Include="Engine\Component\LightComponents\FlashLightComponent\FlashLightComponent.h" />
     <ClInclude Include="Engine\Component\LightComponents\PointLightComponent\PointLightComponent.h" />
     <ClInclude Include="Engine\Component\RenderComponent\RenderComponent.h" />
     <ClInclude Include="Engine\Component\TransformationComponent\TransformationComponent.h" />

@@ -57,9 +57,6 @@
     <ClCompile Include="Engine\LightManager\LightManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Component\LightComponents\FlashLightComponent\FlashLightComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Component\LightComponents\PointLightComponent\PointLightComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -128,9 +125,6 @@
     <ClInclude Include="Engine\LightManager\LightManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Component\LightComponents\FlashLightComponent\FlashLightComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Component\LightComponents\PointLightComponent\PointLightComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -156,6 +150,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Core\ObjectReferenceManager\ObjectReferenceManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\LightComponents\LightData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

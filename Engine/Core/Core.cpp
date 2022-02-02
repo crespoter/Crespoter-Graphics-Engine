@@ -9,6 +9,8 @@
 #include "../Component/RenderComponent/RenderComponent.h"
 #include "../Component/CameraComponent/CameraComponent.h"
 #include "../Component/TransformationComponent/TransformationComponent.h"
+#include "../Component/LightComponents/PointLightComponent/PointLightComponent.h"
+#include "../Component/LightComponents/DirectionalLightComponent/DirectionalLightComponent.h"
 
 CCore::CCore()
 {
@@ -58,13 +60,47 @@ void CCore::StartEngine()
 		}
 
 		// Main Rendering loop
+		MainRenderShader->Activate();
 
 		// TODO: Handle lights automatically
-		MainRenderShader->Activate();
-		MainRenderShader->SetVec3("LightPos", glm::vec3(2.0f, 10.0f, 2.0f));
-		MainRenderShader->SetVec3("Light.Ambient", glm::vec3(0.2f, 0.2f, 0.2f));
-		MainRenderShader->SetVec3("Light.Diffuse", glm::vec3(0.5f, 0.5f, 0.5f));
-		MainRenderShader->SetVec3("Light.Specular", glm::vec3(1.0f, 1.0f, 1.0f));
+
+		// Handle Lights
+		
+		// Directional Light
+		if (ObjectReferenceManager->DirectionalLightComponent == nullptr)
+		{
+			MainRenderShader->SetBool("DirectionalLight.bIsActive", false);
+		}
+		else
+		{
+			MainRenderShader->SetBool("DirectionalLight.bIsActive", true);
+			MainRenderShader->SetVec3("DirectionalLight.Ambient", ObjectReferenceManager->DirectionalLightComponent->GetAmbientColor());
+			MainRenderShader->SetVec3("DirectionalLight.Diffuse", ObjectReferenceManager->DirectionalLightComponent->GetDiffuseColor());
+			MainRenderShader->SetVec3("DirectionalLight.Specular", ObjectReferenceManager->DirectionalLightComponent->GetSpecularColor());
+			MainRenderShader->SetVec3("DirectionalLight.Direction", ObjectReferenceManager->DirectionalLightComponent->GetLightDirection());
+		}
+
+		// Point Lights
+		int Count = 0;
+		for (auto i = ObjectReferenceManager->PointLightComponents.begin(); i != ObjectReferenceManager->PointLightComponents.end(); i++)
+		{
+			std::string PointLightUniformPrefix = "PointLights[" + std::to_string(Count) + "]";
+			CPointLightComponent* PointLightComponent = *i;
+			MainRenderShader->SetVec3(PointLightUniformPrefix + ".Ambient", PointLightComponent->GetAmbientColor());
+			MainRenderShader->SetVec3(PointLightUniformPrefix + ".Diffuse", PointLightComponent->GetDiffuseColor());
+			MainRenderShader->SetVec3(PointLightUniformPrefix + ".Specular", PointLightComponent->GetSpecularColor());
+			
+			MainRenderShader->SetVec3(PointLightUniformPrefix + ".LightPos", PointLightComponent->GetLightPosition());
+
+			MainRenderShader->SetFloat(PointLightUniformPrefix + ".Attenuation.ConstantCoeff", PointLightComponent->GetConstantAttenuationCoeff());
+			MainRenderShader->SetFloat(PointLightUniformPrefix + ".Attenuation.LinearCoeff", PointLightComponent->GetLinearAttenuationCoeff());
+			MainRenderShader->SetFloat(PointLightUniformPrefix + ".Attenuation.QuadraticCoeff", PointLightComponent->GetQuadraticAttenuationCoeff());
+			
+			Count++;
+		}
+		MainRenderShader->SetInteger("PointLightCount", Count);
+
+		// Handle all render objects
 		CCameraComponent* CameraComponent = ServiceLocator::GetActiveCamera();
 
 		for (auto i = ObjectReferenceManager->RenderComponents.begin(); i != ObjectReferenceManager->RenderComponents.end(); i++)
