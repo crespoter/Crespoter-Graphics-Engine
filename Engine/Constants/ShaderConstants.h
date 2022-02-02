@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <glm/glm.hpp>
 
 struct FShaderPathDefinition
 {
@@ -18,4 +19,5 @@ namespace ShaderConstants
 	const unsigned int MAX_POINT_LIGHTS = 10;
 	const unsigned int MAX_TEXTURES = 10;
 	const std::string TEXTURE_NOT_FOUND_TEXTURE = "Engine/Resources/Textures/default.jpg";
+	const glm::vec3 DEFAULT_CLEAR_COLOR = glm::vec3(0.0f, 0.5f, 0.0f);
 }

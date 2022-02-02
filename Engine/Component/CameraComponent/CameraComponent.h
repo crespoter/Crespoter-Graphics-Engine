@@ -57,7 +57,7 @@ protected:
 	glm::vec3 CameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 	float Yaw = 0;
 	float Pitch = 0;
-	float Fov = 45.0f;
+	float Fov = 90.0f;
 	float MinDistance = 0.1f;
 	float MaxDistance = 100.0f;
 };

@@ -1,11 +1,16 @@
 #include "GameObject.h"
 #include "../Component/Component.h"
 #include "../Component/TransformationComponent/TransformationComponent.h"
+#include "../ServiceLocator/ServiceLocator.h"
+#include "../Core/ObjectReferenceManager/ObjectReferenceManager.h"
 
 CGameObject::CGameObject(const std::string& InName)
 {
 	Name = InName;
 	this->AddComponent<CTransformationComponent>();
+
+	// Add game object to reference manager
+	ServiceLocator::GetObjectReferenceManager()->AddGameObject(this);
 }
 
 CGameObject::~CGameObject()
@@ -17,6 +22,7 @@ CGameObject::~CGameObject()
 		delete Component;
 	}
 	ComponentsList.clear();
+	ServiceLocator::GetObjectReferenceManager()->RemoveGameObect(this);
 }
 
 void CGameObject::Start()

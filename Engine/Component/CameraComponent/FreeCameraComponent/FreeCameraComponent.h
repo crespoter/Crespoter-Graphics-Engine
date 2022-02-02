@@ -1,5 +1,6 @@
 #pragma once
 #include "../CameraComponent.h"
+#include "../../../Window/OpenGLWindow/OpenGLWindow.h"
 
 
 class CFreeCameraComponent : public CCameraComponent
@@ -17,7 +18,7 @@ public:
 		float MouseSensitivity = 1.0f;
 	};
 private:
-	IWindowInterface* WindowInterface = nullptr;
+	COpenGLWindow* WindowInterface = nullptr;
 	FFreeCameraControlInput CameraControlInput;
 	float LastMouseX = 0.0f, LastMouseY = 0.0f;
 
@@ -29,6 +30,11 @@ public:
 	* Keep values as -1 to keys that needs to be disabled
 	* Speed values of 0 can be used to disable translation or rotation along that axis
 	*/
-	void SetupMovementControls(IWindowInterface* InWindowInterface, FFreeCameraControlInput InCameraControl);
+	void SetupMovementControls(FFreeCameraControlInput InCameraControl);
+
+	/**
+	 * Sets the movement controls with the default values
+	 */
+	void SetupMovementControls();
 
 };

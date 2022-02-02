@@ -4,6 +4,7 @@
 #include <vector>
 
 class IComponent;
+class CCore;
 
 /**
  * Building block for any program. Components can be attached to game objects for additional functionalities.
@@ -13,7 +14,7 @@ class IComponent;
 
 class CGameObject
 {
-
+friend CCore;
 public:
 	CGameObject(const std::string &InName);
 	virtual ~CGameObject();
@@ -54,6 +55,8 @@ protected:
 	std::vector<IComponent*> ComponentsList;
 
 	bool bShouldUpdate = false;
+
+	bool bIsInitialized = false;
 };
 
 // Template definitions
