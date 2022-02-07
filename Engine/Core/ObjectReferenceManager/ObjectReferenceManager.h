@@ -5,6 +5,7 @@ class CGameObject;
 class CRenderComponent;
 class ServiceLocator;
 class CCore;
+class CSkybox;
 class CPointLightComponent;
 class CDirectionalLightComponent;
 
@@ -26,6 +27,8 @@ public:
 
 	void UpdateDirectionalLightComponent(CDirectionalLightComponent* InDirectionalLightComponent);
 	
+	void UpdateSkybox(CSkybox* InSkybox);
+
 private:
 	CObjectReferenceManager();
 	~CObjectReferenceManager();
@@ -34,4 +37,5 @@ private:
 	std::vector<CRenderComponent*> RenderComponents;
 	std::vector<CPointLightComponent*> PointLightComponents;
 	CDirectionalLightComponent* DirectionalLightComponent = nullptr;
+	CSkybox* Skybox = nullptr;
 };

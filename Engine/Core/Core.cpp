@@ -8,6 +8,7 @@
 #include "ObjectReferenceManager/ObjectReferenceManager.h"
 #include "../Component/RenderComponent/RenderComponent.h"
 #include "../Component/CameraComponent/CameraComponent.h"
+#include "../Skybox/Skybox.h"
 #include "../Component/TransformationComponent/TransformationComponent.h"
 #include "../Component/LightComponents/PointLightComponent/PointLightComponent.h"
 #include "../Component/LightComponents/DirectionalLightComponent/DirectionalLightComponent.h"
@@ -21,7 +22,6 @@ CCore::CCore()
 	
 	//Initialize Main Shader
 	MainRenderShader = new CShaderProgram();
-
 
 	// Register in provider
 	ServiceLocator::Provide(Window);
@@ -62,7 +62,6 @@ void CCore::StartEngine()
 		// Main Rendering loop
 		MainRenderShader->Activate();
 
-		// TODO: Handle lights automatically
 
 		// Handle Lights
 		
@@ -102,18 +101,26 @@ void CCore::StartEngine()
 
 		// Handle all render objects
 		CCameraComponent* CameraComponent = ServiceLocator::GetActiveCamera();
-
+		int x = 0;
 		for (auto i = ObjectReferenceManager->RenderComponents.begin(); i != ObjectReferenceManager->RenderComponents.end(); i++)
 		{
+			CRenderComponent* RenderComponent = *i;
+
 			MainRenderShader->SetMat4("ViewMatrix", CameraComponent->GetViewMatrix());
 			MainRenderShader->SetMat4("ProjectionMatrix", CameraComponent->GetProjectionMatrix(Window));
 			MainRenderShader->SetVec3("ViewPosition", CameraComponent->GetParentTransformationComponent()->GetPosition());
 
-			MainRenderShader->SetMat4("ModelMatrix", glm::mat4(1.0f));
+			MainRenderShader->SetMat4("ModelMatrix", RenderComponent->GetModelMatrix());
 			
-			CRenderComponent* RenderComponent = *i;
 			RenderComponent->Render();
 		}
+
+		// Handle Skybox
+		if (ObjectReferenceManager->Skybox != nullptr)
+		{
+			ObjectReferenceManager->Skybox->Draw(CameraComponent->GetViewMatrix(), CameraComponent->GetProjectionMatrix(Window));
+		}
+		
 		glfwPollEvents();
 	}
 }

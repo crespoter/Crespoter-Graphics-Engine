@@ -78,6 +78,9 @@
     <ClCompile Include="Engine\Core\ObjectReferenceManager\ObjectReferenceManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Skybox\Skybox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\ShaderProgram\ShaderProgram.h">
@@ -155,6 +158,9 @@
     <ClInclude Include="Engine\Component\LightComponents\LightData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Skybox\Skybox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Textures\rickroll.jpg">
@@ -166,5 +172,9 @@
     <Image Include="Assets\Textures\rickroll-grayscale.jpg">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Engine\Shaders\OpenGL Shaders\Skybox Shaders\SkyboxVertexShader.vert" />
+    <None Include="Engine\Shaders\OpenGL Shaders\Skybox Shaders\SkyboxFragmentShader.frag" />
   </ItemGroup>
 </Project>

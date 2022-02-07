@@ -10,9 +10,9 @@ struct FMaterial
 	float ShininessStrength;
 	bool bShouldUseDiffuseTexture;
 	bool bShouldUseSpecularTexture;
-	vec3 AmbientColor;
-	vec3 DiffuseColor;
-	vec3 SpecularColor;
+	vec4 AmbientColor;
+	vec4 DiffuseColor;
+	vec4 SpecularColor;
 };
 
 struct FAttenuation
@@ -72,8 +72,9 @@ vec3 CalculatePointLight(int Index)
     vec3 ViewDirection = normalize(ViewPosition - FragPos);
     vec3 ReflectDirection = reflect(-LightDirection, NormalizedNormal);  
 	float Spec;
+	vec3 HalfwayDirection = normalize(LightDirection + ViewDirection);
 
-	Spec = pow(max(dot(ViewDirection, ReflectDirection), 0.0),  Material.Shininess < 0.05 ? 0.0 : Material.Shininess);
+	Spec = pow(max(dot(HalfwayDirection, NormalizedNormal), 0.0),  Material.Shininess < 0.05 ? 0.0 : Material.Shininess);
 
 
     vec3 SpecularComponent = Material.ShininessStrength * PointLights[Index].Specular * (Spec * SpecularColor);
@@ -100,9 +101,11 @@ vec3 CalculateDirectionalLight()
 	vec3 ReflectDirection = reflect(-LightDirection, Normal);
 	vec3 ViewDirection = normalize(ViewPosition - FragPos);
 
+	vec3 HalfwayDirection = normalize(LightDirection + ViewDirection);
+
 	float Spec;
 
-	Spec = pow(max(dot(ViewDirection, ReflectDirection), 0.0),  Material.Shininess < 0.05 ? 0.0 : Material.Shininess);	
+	Spec = pow(max(dot(NormalizedNormal, HalfwayDirection), 0.0),  Material.Shininess < 0.05 ? 0.0 : Material.Shininess);	
 
 	vec3 SpecularComponent = Material.ShininessStrength *DirectionalLight.Specular * (Spec * SpecularColor);
 
@@ -114,8 +117,8 @@ void main()
 {
 	NormalizedNormal =normalize(Normal);
 
-	AmbientColor = Material.AmbientColor;
-	DiffuseColor = Material.DiffuseColor;	
+	AmbientColor = Material.AmbientColor.xyz;
+	DiffuseColor = Material.DiffuseColor.xyz;	
 
 	if (Material.bShouldUseDiffuseTexture)
 	{
@@ -123,7 +126,7 @@ void main()
 		DiffuseColor = AmbientColor;
 	}
 	
-	SpecularColor = Material.SpecularColor;
+	SpecularColor = Material.SpecularColor.xyz;
 
 	if (Material.bShouldUseSpecularTexture)
 	{
@@ -132,7 +135,7 @@ void main()
 	else
 	{
 		// Multiply by the diffuse color as there is no texture;
-		SpecularColor = SpecularColor * Material.DiffuseColor;
+		SpecularColor = SpecularColor * Material.DiffuseColor.xyz;
 	}
 	vec3 FinalResult = vec3(0.0);
 

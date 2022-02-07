@@ -75,9 +75,9 @@ void CMesh::Draw(CShaderProgram* ShaderProgram)
 	ShaderProgram->SetFloat("Material.ShininessStrength", MeshMaterial.ShininessStrength);
 	ShaderProgram->SetBool("Material.bShouldUseDiffuseTexture", MeshMaterial.bShouldUseDiffuseTexture);
 	ShaderProgram->SetBool("Material.bShouldUseSpecularTexture", MeshMaterial.bShouldUseSpecularTexture);
-	ShaderProgram->SetVec3("Material.AmbientColor", MeshMaterial.AmbientColor);
-	ShaderProgram->SetVec3("Material.DiffuseColor", MeshMaterial.DiffuseColor);
-	ShaderProgram->SetVec3("Material.SpecularColor", MeshMaterial.SpecularColor);
+	ShaderProgram->SetVec4("Material.AmbientColor", MeshMaterial.AmbientColor);
+	ShaderProgram->SetVec4("Material.DiffuseColor", MeshMaterial.DiffuseColor);
+	ShaderProgram->SetVec4("Material.SpecularColor", MeshMaterial.SpecularColor);
 	
 	// Draw Mesh
 	glBindVertexArray(VertexArrayObject);

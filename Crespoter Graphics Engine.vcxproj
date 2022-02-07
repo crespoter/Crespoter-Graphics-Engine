@@ -162,6 +162,7 @@
     <ClCompile Include="Engine\Model\Model.cpp" />
     <ClCompile Include="Engine\ShaderProgram\ShaderProgram.cpp" />
     <ClCompile Include="Engine\ServiceLocator\ServiceLocator.cpp" />
+    <ClCompile Include="Engine\Skybox\Skybox.cpp" />
     <ClCompile Include="Engine\Texture\OpenGLTexture\OpenGLTexture.cpp" />
     <ClCompile Include="Engine\Texture\TextureLoader\TextureLoader.cpp" />
     <ClCompile Include="Engine\Window\OpenGLWindow\OpenGLWindow.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="Engine\Model\Model.h" />
     <ClInclude Include="Engine\ShaderProgram\ShaderProgram.h" />
     <ClInclude Include="Engine\ServiceLocator\ServiceLocator.h" />
+    <ClInclude Include="Engine\Skybox\Skybox.h" />
     <ClInclude Include="Engine\Texture\OpenGLTexture\OpenGLTexture.h" />
     <ClInclude Include="Engine\Texture\TextureInterface.h" />
     <ClInclude Include="Engine\Texture\TextureLoader\TextureLoader.h" />
@@ -200,6 +202,10 @@
     <Image Include="Assets\Textures\rickroll-grayscale.jpg" />
     <Image Include="Assets\Textures\rickroll.jpg" />
     <Image Include="Assets\Textures\wood-box.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Engine\Shaders\OpenGL Shaders\Skybox Shaders\SkyboxFragmentShader.frag" />
+    <None Include="Engine\Shaders\OpenGL Shaders\Skybox Shaders\SkyboxVertexShader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

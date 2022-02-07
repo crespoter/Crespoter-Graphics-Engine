@@ -79,3 +79,8 @@ void CObjectReferenceManager::UpdateDirectionalLightComponent(CDirectionalLightC
 {
 	DirectionalLightComponent = InDirectionalLightComponent;
 }
+
+void CObjectReferenceManager::UpdateSkybox(CSkybox* InSkybox)
+{
+	Skybox = InSkybox;
+}

@@ -1,6 +1,7 @@
 #pragma once
 #include "../TextureInterface.h"
 
+
 class COpenGLTexture : public ITextureInterface
 {
 public:

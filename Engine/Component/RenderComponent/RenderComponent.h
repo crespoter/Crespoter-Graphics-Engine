@@ -1,5 +1,6 @@
 #pragma once
 #include "../Component.h"
+#include <glm/glm.hpp>
 
 class CModel;
 
@@ -18,6 +19,9 @@ public:
 	void SetModel(const std::string& ModelPath);
 
 	void Render();
+
+	glm::mat4 GetModelMatrix();
+
 private:
 	CModel* ModelObject = nullptr;
 };

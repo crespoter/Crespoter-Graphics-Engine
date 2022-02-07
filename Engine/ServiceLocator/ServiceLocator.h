@@ -32,6 +32,7 @@ public:
 
 	static CObjectReferenceManager* GetObjectReferenceManager();
 
+
 private:
 	ServiceLocator() { };
 	static CCameraComponent* ActiveCamera;

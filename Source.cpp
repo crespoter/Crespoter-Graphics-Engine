@@ -8,6 +8,8 @@
 #include "Engine/Core/Core.h"
 #include "Engine/Component/LightComponents/PointLightComponent/PointLightComponent.h"
 #include "Engine/Component/LightComponents/DirectionalLightComponent/DirectionalLightComponent.h"
+#include "Engine/Skybox/Skybox.h"
+#include "Engine/Component/TransformationComponent/TransformationComponent.h"
 
 
 int main()
@@ -28,12 +30,31 @@ int main()
 	// Point light game object
 	CGameObject PointLight("Red Light");
 	PointLight.AddComponent<CPointLightComponent>();
-	PointLight.GetComponent<CPointLightComponent>()->SetLightProperties(glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.5f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	PointLight.GetComponent<CTransformationComponent>()->MoveTo(glm::vec3(-4.0f, 1.5f, -4.0f));
+	PointLight.GetComponent<CPointLightComponent>()->SetLightProperties(glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.8f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+
+	// Second point light
+	CGameObject PointLight2("Red Light 2");
+	PointLight2.AddComponent<CPointLightComponent>();
+	PointLight2.GetComponent<CTransformationComponent>()->MoveTo(glm::vec3(-1.0f, 1.5f, -4.0f));
+
+	PointLight2.GetComponent<CPointLightComponent>()->SetLightProperties(glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.8f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+
+	// Third point light
+	CGameObject PointLight3("Red Light 3");
+	PointLight3.AddComponent<CPointLightComponent>();
+	PointLight3.GetComponent<CTransformationComponent>()->Scale(glm::vec3(0.05, 0.05, 0.05));
+	PointLight3.GetComponent<CTransformationComponent>()->MoveTo(glm::vec3(1.0f, 2.5f, -2.5f));
+
+	PointLight2.GetComponent<CPointLightComponent>()->SetLightProperties(glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.8f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
 	// Directional Light
 	CGameObject DirectionalLight("Directional Light");
 	DirectionalLight.AddComponent<CDirectionalLightComponent>();
 	DirectionalLight.GetComponent<CDirectionalLightComponent>()->SetLightProperties(glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.5f, -0.5f, 0.5f));
+
+	// Skybox
+	CSkybox Skybox("Assets/Textures/Cubemaps/skybox");
 
 	Core->StartEngine();
 

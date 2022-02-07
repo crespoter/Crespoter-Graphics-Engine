@@ -2,6 +2,8 @@
 #include "../../Model/Model.h"
 #include "../../ServiceLocator/ServiceLocator.h"
 #include "../../Core/ObjectReferenceManager/ObjectReferenceManager.h"
+#include "../../GameObject/GameObject.h"
+#include "../TransformationComponent/TransformationComponent.h"
 
 CRenderComponent::CRenderComponent(const std::string& ComponentName) : IComponent(ComponentName)
 {
@@ -22,5 +24,10 @@ void CRenderComponent::SetModel(const std::string& ModelPath)
 void CRenderComponent::Render()
 {
 	ModelObject->Draw(ServiceLocator::GetMainShaderProgram());
+}
+
+glm::mat4 CRenderComponent::GetModelMatrix()
+{
+	return ParentGameObject->GetComponent<CTransformationComponent>()->GetModelMatrix();
 }
 
