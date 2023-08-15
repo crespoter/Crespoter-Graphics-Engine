@@ -10,6 +10,8 @@ public:
 	*/
 	virtual void Start() {};
 
+	virtual ~IComponent() {};
+
 	/**
 	* Updates function that is executed every frame of rendering.
 	*/
@@ -26,7 +28,7 @@ public:
 	std::string GetName() const;
 
 protected:
-	IComponent(const std::string InComponentName);
+	explicit IComponent(const std::string InComponentName);
 	CGameObject* ParentGameObject = nullptr;
 	std::string ComponentName = "";
 	bool bShouldUpdate = false;

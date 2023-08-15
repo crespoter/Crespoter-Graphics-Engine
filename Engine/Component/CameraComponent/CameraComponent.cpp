@@ -5,6 +5,8 @@
 #include "../../Window/WindowInterface.h"
 #include "../../ServiceLocator/ServiceLocator.h"
 
+#include <algorithm>
+
 CCameraComponent::CCameraComponent() : IComponent(CAMERA_COMPONENT_NAME)
 {	
 	// If there is no camera registered, register this as the active camera
@@ -16,7 +18,7 @@ CCameraComponent::CCameraComponent() : IComponent(CAMERA_COMPONENT_NAME)
 
 glm::mat4 CCameraComponent::GetViewMatrix() const
 {
-	glm::vec3 Position = ParentTransformationComponent->GetPosition();
+	const glm::vec3 Position = ParentTransformationComponent->GetPosition();
 	return glm::lookAt(Position, Position + CameraForward, CameraUp);
 }
 
@@ -61,15 +63,7 @@ void CCameraComponent::IncrementRotationEulerAngles(float YawIncrement, float Pi
 {
 	Yaw += YawIncrement;
 	Pitch += PitchIncrement;
-
-	if (Pitch > 89.0f)
-	{
-		Pitch = 89.0f;
-	}
-	if (Pitch < -89.0f)
-	{
-		Pitch = -89.0f;
-	}
+	Pitch = std::clamp(Pitch, -89.0f, 89.0f);
 }
 
 glm::vec3 CCameraComponent::GetCameraForward() const

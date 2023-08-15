@@ -13,7 +13,7 @@ void CTransformationComponent::Update(float DeltaTime)
 	TransformationCalculationStates.reset();
 }
 
-glm::mat4 CTransformationComponent::GetModelMatrix()
+glm::mat4 CTransformationComponent::GetModelMatrix() const
 {
 	return TransformationMatrix;
 }

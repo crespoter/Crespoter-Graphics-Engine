@@ -11,30 +11,34 @@ void CFreeCameraComponent::Update(float DeltaTime)
 	assert(ParentTransformationComponent != nullptr);
 	glm::vec3 CameraRight = GetCameraRight();
 
-	if (CameraControlInput.MoveForwardKey != -1 &&  WindowInterface->IsKeyPressed(CameraControlInput.MoveForwardKey))
+	glm::vec3 CameraMovementDirection{ 0.0f };
+	
+	if (IsKeyPressed(CameraControlInput.MoveForwardKey))
 	{
-		ParentTransformationComponent->Translate(CameraControlInput.CameraMoveSpeed * CameraForward * DeltaTime);
+		CameraMovementDirection += CameraForward;
 	}
-	if (CameraControlInput.MoveBackwardKey != -1 && WindowInterface->IsKeyPressed(CameraControlInput.MoveBackwardKey))
+	if (IsKeyPressed(CameraControlInput.MoveBackwardKey))
 	{
-		ParentTransformationComponent->Translate(-CameraControlInput.CameraMoveSpeed * CameraForward * DeltaTime);
+		CameraMovementDirection -= CameraForward;
 	}
-	if (CameraControlInput.MoveLeftKey != -1 && WindowInterface->IsKeyPressed(CameraControlInput.MoveLeftKey))
+	if (IsKeyPressed(CameraControlInput.MoveLeftKey))
 	{
-		ParentTransformationComponent->Translate(-CameraControlInput.CameraMoveSpeed * CameraRight * DeltaTime);
+		CameraMovementDirection -= CameraRight;
 	}
-	if (CameraControlInput.MoveRightKey != -1 && WindowInterface->IsKeyPressed(CameraControlInput.MoveRightKey))
+	if (IsKeyPressed(CameraControlInput.MoveRightKey))
 	{
-		ParentTransformationComponent->Translate(CameraControlInput.CameraMoveSpeed * CameraRight * DeltaTime);
+		CameraMovementDirection += CameraRight;
 	}
-	if (CameraControlInput.MoveUpKey != -1 && WindowInterface->IsKeyPressed(CameraControlInput.MoveUpKey))
+	if (IsKeyPressed(CameraControlInput.MoveUpKey))
 	{
-		ParentTransformationComponent->Translate(CameraControlInput.CameraMoveSpeed * CameraUp * DeltaTime);
+		CameraMovementDirection += CameraUp;
 	}
-	if (CameraControlInput.MoveDownKey != -1 && WindowInterface->IsKeyPressed(CameraControlInput.MoveDownKey))
+	if (IsKeyPressed(CameraControlInput.MoveDownKey))
 	{
-		ParentTransformationComponent->Translate(-CameraControlInput.CameraMoveSpeed * CameraUp * DeltaTime);
+		CameraMovementDirection -= CameraUp;
 	}
+
+	ParentTransformationComponent->Translate(CameraControlInput.CameraMoveSpeed * CameraMovementDirection * DeltaTime);
 
 	IWindowInterface::FMousePosition CurrentMousePosition = WindowInterface->GetMousePosition();
 	float xOffset = CameraControlInput.MouseSensitivity * (CurrentMousePosition.PosX - LastMouseX) * DeltaTime;
@@ -71,4 +75,9 @@ void CFreeCameraComponent::SetupMovementControls()
 	CameraControlInput.MoveUpKey = GLFW_KEY_E;
 	CameraControlInput.MoveLeftKey = GLFW_KEY_A;
 	CameraControlInput.MoveRightKey = GLFW_KEY_D;
+}
+
+bool CFreeCameraComponent::IsKeyPressed(const int Key) const
+{
+	return Key != -1 && WindowInterface->IsKeyPressed(Key);
 }

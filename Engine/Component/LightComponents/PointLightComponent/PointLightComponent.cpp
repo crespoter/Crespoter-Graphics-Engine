@@ -16,7 +16,7 @@ CPointLightComponent::~CPointLightComponent()
 	ServiceLocator::GetObjectReferenceManager() ->RemovePointLightComponent(this);
 }
 
-void CPointLightComponent::SetLightProperties(glm::vec3 AmbientColor, glm::vec3 DiffuseColor, glm::vec3 SpecularColor)
+void CPointLightComponent::SetLightProperties(const glm::vec3& AmbientColor, const glm::vec3& DiffuseColor, const glm::vec3& SpecularColor)
 {
 	LightProperties.AmbientColor = AmbientColor;
 	LightProperties.DiffuseColor = DiffuseColor;
@@ -28,49 +28,49 @@ void CPointLightComponent::SetLightProperties(const FPointLightProperties &InLig
 	LightProperties = InLightProperties;
 }
 
-void CPointLightComponent::UpdateLightAttenuationProperty(FLightAttenuation UpdatedLightAttenuation)
+void CPointLightComponent::UpdateLightAttenuationProperty(const FLightAttenuation& UpdatedLightAttenuation)
 {
 	LightProperties.LightAttenuation = UpdatedLightAttenuation;
 }
 
-void CPointLightComponent::UpdateLightAttenuationProperty(float ConstantCoeff, float LinearCoeff, float QuadraticCoeff)
+void CPointLightComponent::UpdateLightAttenuationProperty(const float ConstantCoeff, const float LinearCoeff, const float QuadraticCoeff)
 {
 	LightProperties.LightAttenuation.ConstantCoeff = ConstantCoeff;
 	LightProperties.LightAttenuation.LinearCoeff = LinearCoeff;
 	LightProperties.LightAttenuation.QuadraticCoeff = QuadraticCoeff;
 }
 
-glm::vec3 CPointLightComponent::GetAmbientColor()
+glm::vec3 CPointLightComponent::GetAmbientColor() const
 {
 	return LightProperties.AmbientColor;
 }
 
-glm::vec3 CPointLightComponent::GetDiffuseColor()
+glm::vec3 CPointLightComponent::GetDiffuseColor() const
 {
 	return LightProperties.DiffuseColor;
 }
 
-glm::vec3 CPointLightComponent::GetSpecularColor()
+glm::vec3 CPointLightComponent::GetSpecularColor() const
 {
 	return LightProperties.SpecularColor;
 }
 
-glm::vec3 CPointLightComponent::GetLightPosition()
+glm::vec3 CPointLightComponent::GetLightPosition() const
 {
 	return ParentGameObject->GetComponent<CTransformationComponent>()->GetPosition();
 }
 
-float CPointLightComponent::GetLinearAttenuationCoeff()
+float CPointLightComponent::GetLinearAttenuationCoeff() const
 {
 	return LightProperties.LightAttenuation.LinearCoeff;
 }
 
-float CPointLightComponent::GetConstantAttenuationCoeff()
+float CPointLightComponent::GetConstantAttenuationCoeff() const
 {
 	return LightProperties.LightAttenuation.ConstantCoeff;
 }
 
-float CPointLightComponent::GetQuadraticAttenuationCoeff()
+float CPointLightComponent::GetQuadraticAttenuationCoeff() const
 {
 	return LightProperties.LightAttenuation.QuadraticCoeff;
 }

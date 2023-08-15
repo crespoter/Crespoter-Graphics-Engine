@@ -23,5 +23,5 @@ public:
 	glm::mat4 GetModelMatrix();
 
 private:
-	CModel* ModelObject = nullptr;
+	std::unique_ptr<CModel> ModelObject{ nullptr };
 };

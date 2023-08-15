@@ -3,26 +3,35 @@
 #include "../../../Window/OpenGLWindow/OpenGLWindow.h"
 
 
+namespace
+{
+	enum class FCameraMovementDirection
+	{
+		Forward,
+		Back,
+		Left,
+		Right,
+		Up,
+		Down
+	};
+}
+
+struct FFreeCameraControlInput
+{
+	int MoveForwardKey = -1, MoveBackwardKey = -1;
+	int MoveRightKey = -1, MoveLeftKey = -1;
+	int MoveUpKey = -1, MoveDownKey = -1;
+	float CameraMoveSpeed = 1.0f;
+	float MouseSensitivity = 1.0f;
+};
+
 class CFreeCameraComponent : public CCameraComponent
 {
 public:
 	/**
 	* Contains camera control keys and their speeds
 	*/
-	struct FFreeCameraControlInput
-	{
-		int MoveForwardKey = -1, MoveBackwardKey = -1;
-		int MoveRightKey = -1, MoveLeftKey = -1;
-		int MoveUpKey = -1, MoveDownKey = -1;
-		float CameraMoveSpeed = 1.0f;
-		float MouseSensitivity = 1.0f;
-	};
-private:
-	COpenGLWindow* WindowInterface = nullptr;
-	FFreeCameraControlInput CameraControlInput;
-	float LastMouseX = 0.0f, LastMouseY = 0.0f;
 
-public:
 	void Update(float DeltaTime) override;
 	void Start() override;
 	/**
@@ -37,4 +46,10 @@ public:
 	 */
 	void SetupMovementControls();
 
+private:
+	bool IsKeyPressed(const int key) const;
+
+	COpenGLWindow* WindowInterface = nullptr;
+	FFreeCameraControlInput CameraControlInput;
+	float LastMouseX = 0.0f, LastMouseY = 0.0f;
 };

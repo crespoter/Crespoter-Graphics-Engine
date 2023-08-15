@@ -3,7 +3,8 @@
 
 struct FLightAttenuation
 {
-	// Default values for distance up to 50 units. Refer http://www.ogre3d.org/tikiwiki/tiki-index.php?page=-Point+Light+Attenuation
+	// Default values for distance up to 50 units.
+	// Refer http://www.ogre3d.org/tikiwiki/tiki-index.php?page=-Point+Light+Attenuation
 	float ConstantCoeff = 1.0f;
 	float LinearCoeff = 0.07f;
 	float QuadraticCoeff = 0.017f;

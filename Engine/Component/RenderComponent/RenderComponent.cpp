@@ -12,13 +12,12 @@ CRenderComponent::CRenderComponent(const std::string& ComponentName) : IComponen
 
 CRenderComponent::~CRenderComponent()
 {
-	delete ModelObject;
 	ServiceLocator::GetObjectReferenceManager()->RemoveRenderComponent(this);
 }
 
 void CRenderComponent::SetModel(const std::string& ModelPath)
 {
-	ModelObject = new CModel(ModelPath);
+	ModelObject = std::make_unique<CModel>(ModelPath);
 }
 
 void CRenderComponent::Render()

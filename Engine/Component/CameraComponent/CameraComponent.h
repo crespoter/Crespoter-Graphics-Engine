@@ -15,6 +15,8 @@ class CCameraComponent : public IComponent
 {
 public:
 	CCameraComponent();
+
+
 	glm::mat4 GetViewMatrix() const;
 
 	glm::mat4 GetProjectionMatrix(const IWindowInterface* InWindow) const;

@@ -20,7 +20,7 @@ public:
 	/**
 	 * Returns the model matrix for the current configuration of position, rotation and Scale
 	 */
-	glm::mat4 GetModelMatrix();
+	glm::mat4 GetModelMatrix() const;
 
 	/**
 	 * Moves to the provided position in the world space
@@ -85,7 +85,7 @@ private:
 	* Index 0 -> True if position is already calculated for this frame. False otherwise
 	* Index 1 -> True if position, rotation and scale have been calculated for this frame. False Otherwise
 	*/
-	std::bitset<2> TransformationCalculationStates;
+	mutable std::bitset<2> TransformationCalculationStates;
 
 	/**
 	* Calculates and assigns the rotation and scale to the member variables
