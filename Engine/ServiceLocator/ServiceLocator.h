@@ -3,7 +3,7 @@
 class CCameraComponent;
 class CShaderProgram;
 class CCore;
-class COpenGLWindow;
+class IWindowInterface;
 class CObjectReferenceManager;
 
 /**
@@ -16,7 +16,7 @@ public:
 	 * Provides
 	 */
 	static void Provide(CCameraComponent* ActiveCamera);
-	static void Provide(COpenGLWindow* InWindow);
+	static void Provide(IWindowInterface* InWindow);
 	static void Provide(CShaderProgram* InMainRenderShaderProgram);
 
 	/**
@@ -26,7 +26,7 @@ public:
 
 	static CShaderProgram* GetMainShaderProgram();
 
-	static COpenGLWindow* GetWindow();
+	static IWindowInterface* GetWindow();
 
 	static CCore* GetCore();
 
@@ -37,7 +37,7 @@ private:
 	ServiceLocator() { };
 	static CCameraComponent* ActiveCamera;
 	static CCore Core;
-	static COpenGLWindow* Window;
+	static IWindowInterface* Window;
 	static CShaderProgram* MainRenderShader;
 	static CObjectReferenceManager ObjectReferenceManager;
 };

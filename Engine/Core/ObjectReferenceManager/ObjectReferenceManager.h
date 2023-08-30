@@ -9,6 +9,10 @@ class CSkybox;
 class CPointLightComponent;
 class CDirectionalLightComponent;
 
+
+// TODO: Also store all available cameras here.
+// This might be a better place to store the active camera too instead of service locator.
+
 class CObjectReferenceManager
 {
 friend ServiceLocator; 
@@ -30,9 +34,8 @@ public:
 	void UpdateSkybox(CSkybox* InSkybox);
 
 private:
-	CObjectReferenceManager();
-	~CObjectReferenceManager();
-	static bool bIsInitialized;
+	CObjectReferenceManager() = default;
+
 	std::vector<CGameObject*> GameObjects;
 	std::vector<CRenderComponent*> RenderComponents;
 	std::vector<CPointLightComponent*> PointLightComponents;

@@ -1,6 +1,7 @@
 #include "Component.h"
 #include <assert.h>
 
+
 IComponent::IComponent(const std::string InComponentName)
 {
 	assert(InComponentName.length() > 0);
@@ -9,11 +10,11 @@ IComponent::IComponent(const std::string InComponentName)
 
 void IComponent::UpdateParent(CGameObject* InParentGameObject)
 {
-	assert(InParentGameObject != nullptr);
+	assert(InParentGameObject);
 	ParentGameObject = InParentGameObject;
 }
 
-std::string IComponent::GetName() const
+void IComponent::GetName(std::string& outName) const
 {
-	return ComponentName;
+	outName = ComponentName;
 }

@@ -25,11 +25,11 @@ public:
 	/**
 	* Fetches the name of the component
 	*/
-	std::string GetName() const;
+	void GetName(std::string& outName) const;
 
 protected:
 	explicit IComponent(const std::string InComponentName);
-	CGameObject* ParentGameObject = nullptr;
-	std::string ComponentName = "";
-	bool bShouldUpdate = false;
+	CGameObject* ParentGameObject{ nullptr };
+	std::string ComponentName;
+	bool bShouldUpdate{ false };
 };

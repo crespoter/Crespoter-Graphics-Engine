@@ -6,13 +6,15 @@ struct FShaderPathDefinition
 {
 	FShaderPathDefinition(std::string InVertexShaderPath, std::string InFragmentShaderPath)
 	{
-		VertexShaderPath = InVertexShaderPath;
-		FragmentShaderPath = InFragmentShaderPath;
+		VertexShaderPath = std::move(InVertexShaderPath);
+		FragmentShaderPath = std::move(InFragmentShaderPath);
 	}
-	std::string VertexShaderPath = "";
-	std::string FragmentShaderPath = "";
+	std::string VertexShaderPath;
+	std::string FragmentShaderPath;
 };
 
+
+// TODO: Configure shader paths and textures in a config file.
 namespace ShaderConstants
 {
 	const static inline FShaderPathDefinition DEFAULT_SHADER = 

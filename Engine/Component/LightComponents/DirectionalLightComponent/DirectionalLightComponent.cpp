@@ -1,6 +1,6 @@
 #include "DirectionalLightComponent.h"
-#include "../../../ServiceLocator/ServiceLocator.h"
-#include "../../../Core/ObjectReferenceManager/ObjectReferenceManager.h"
+#include "Engine/ServiceLocator/ServiceLocator.h"
+#include "Engine/Core/ObjectReferenceManager/ObjectReferenceManager.h"
 
 CDirectionalLightComponent::CDirectionalLightComponent(const std::string& ComponentName) : IComponent(ComponentName)
 {

@@ -1,6 +1,9 @@
 #pragma once
 #include <string>
-#include "../Engine/Window/WindowInterface.h"
+#include "Engine/Window/WindowInterface.h"
+
+// TODO: read from a config file instead
+
 namespace ENGINE_CONFIG
 {
 	const static inline std::string WINDOW_NAME = "Crespoter Game Engine";

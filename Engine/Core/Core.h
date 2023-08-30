@@ -1,6 +1,6 @@
 #pragma once
 
-class COpenGLWindow;
+class IWindowInterface;
 class CShaderProgram;
 
 class CCore
@@ -11,6 +11,6 @@ public:
 	void StartEngine();
 private:
 	float LastTime = 0.0f;
-	COpenGLWindow* Window = nullptr;
+	IWindowInterface* Window = nullptr;
 	CShaderProgram* MainRenderShader = nullptr;
 };

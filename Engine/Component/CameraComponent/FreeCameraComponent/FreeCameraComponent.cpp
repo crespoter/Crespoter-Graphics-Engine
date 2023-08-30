@@ -1,8 +1,11 @@
 #include "FreeCameraComponent.h"
-#include "../../../Window/WindowInterface.h"
-#include "../../TransformationComponent//TransformationComponent.h"
+#include "Engine/Window/WindowInterface.h"
+#include "Engine/Component/TransformationComponent//TransformationComponent.h"
 #include <GLFW/glfw3.h>
-#include "../../../ServiceLocator/ServiceLocator.h"
+#include "Engine/ServiceLocator/ServiceLocator.h"
+
+// TODO: Input handler with observers for each key type that can be used for these kind of updates
+// here as well as in other use cases in game.
 
 void CFreeCameraComponent::Update(float DeltaTime)
 {
@@ -60,7 +63,7 @@ void CFreeCameraComponent::Start()
 	SetupMovementControls();
 }
 
-void CFreeCameraComponent::SetupMovementControls(FFreeCameraControlInput InCameraControl)
+void CFreeCameraComponent::SetupMovementControls(const FFreeCameraControlInput& InCameraControl)
 {
 	CameraControlInput = InCameraControl;
 }

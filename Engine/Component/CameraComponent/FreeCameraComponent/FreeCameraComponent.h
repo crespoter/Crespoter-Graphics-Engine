@@ -1,20 +1,6 @@
 #pragma once
-#include "../CameraComponent.h"
-#include "../../../Window/OpenGLWindow/OpenGLWindow.h"
+#include "Engine/Component/CameraComponent/CameraComponent.h"
 
-
-namespace
-{
-	enum class FCameraMovementDirection
-	{
-		Forward,
-		Back,
-		Left,
-		Right,
-		Up,
-		Down
-	};
-}
 
 struct FFreeCameraControlInput
 {
@@ -34,12 +20,13 @@ public:
 
 	void Update(float DeltaTime) override;
 	void Start() override;
+
 	/**
 	* Sets up movement for the free camera
 	* Keep values as -1 to keys that needs to be disabled
 	* Speed values of 0 can be used to disable translation or rotation along that axis
 	*/
-	void SetupMovementControls(FFreeCameraControlInput InCameraControl);
+	void SetupMovementControls(const FFreeCameraControlInput& InCameraControl);
 
 	/**
 	 * Sets the movement controls with the default values
@@ -49,7 +36,7 @@ public:
 private:
 	bool IsKeyPressed(const int key) const;
 
-	COpenGLWindow* WindowInterface = nullptr;
+	IWindowInterface* WindowInterface = nullptr;
 	FFreeCameraControlInput CameraControlInput;
 	float LastMouseX = 0.0f, LastMouseY = 0.0f;
 };

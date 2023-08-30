@@ -10,12 +10,12 @@
 #include "Engine/Component/LightComponents/DirectionalLightComponent/DirectionalLightComponent.h"
 #include "Engine/Skybox/Skybox.h"
 #include "Engine/Component/TransformationComponent/TransformationComponent.h"
-
+#include "Engine/Window/WindowInterface.h"
 
 int main()
 {
 	
-	COpenGLWindow Window = *(ServiceLocator::GetWindow());
+	IWindowInterface* Window = (ServiceLocator::GetWindow());
 	CCore* Core = ServiceLocator::GetCore();
 
 	// Camera game object

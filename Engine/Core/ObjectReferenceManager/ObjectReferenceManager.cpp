@@ -1,62 +1,40 @@
 #include "ObjectReferenceManager.h"
 #include <assert.h>
-#include "../../Constants/ShaderConstants.h"
+#include "Engine/Constants/ShaderConstants.h"
 
-bool CObjectReferenceManager::bIsInitialized = false;
-
-CObjectReferenceManager::CObjectReferenceManager()
-{
-	assert(!bIsInitialized); // The object has already been initialized.
-	bIsInitialized = true;
-}
-
-CObjectReferenceManager::~CObjectReferenceManager()
-{
-	bIsInitialized = false;
-}
 
 void CObjectReferenceManager::AddGameObject(CGameObject* InGameObject)
 {
-	assert(InGameObject != nullptr);
+	assert(InGameObject);
+	assert(std::find(GameObjects.begin(), GameObjects.end(), InGameObject) == GameObjects.end());
 	GameObjects.push_back(InGameObject);
 }
 
 void CObjectReferenceManager::AddRenderComponent(CRenderComponent* InRenderComponent)
 {
-	assert(InRenderComponent != nullptr);
+	assert(InRenderComponent);
+	assert(std::find(RenderComponents.begin(), RenderComponents.end(), InRenderComponent) == RenderComponents.end());
 	RenderComponents.push_back(InRenderComponent);
 }
 
 void CObjectReferenceManager::RemoveGameObect(CGameObject* InGameObject)
 {
-	assert(InGameObject != nullptr); // nullptr passed as point light
-
-	for (auto i = GameObjects.begin(); i != GameObjects.end(); i++)
-	{
-		if (*i == InGameObject)
-		{
-			GameObjects.erase(i);
-			return;
-		}
-	}
+	assert(InGameObject);
+	GameObjects.erase(std::remove(GameObjects.begin(), GameObjects.end(), InGameObject),
+		GameObjects.end());
 }
 
 void CObjectReferenceManager::RemoveRenderComponent(CRenderComponent* InRenderComponent)
 {
-	assert(InRenderComponent != nullptr);
-	for (auto i = RenderComponents.begin(); i != RenderComponents.end(); i++)
-	{
-		if (*i == InRenderComponent)
-		{
-			RenderComponents.erase(i);
-			return;
-		}
-	}
+	assert(InRenderComponent);
+	RenderComponents.erase(std::remove(RenderComponents.begin(), RenderComponents.end(), InRenderComponent),
+		RenderComponents.end());
 }
 
 void CObjectReferenceManager::AddPointLightComponent(CPointLightComponent* InPointLightComponent)
 {
-	assert(InPointLightComponent != nullptr);
+	// TODO: Support point lights without a maximum limit
+	assert(InPointLightComponent);
 	assert(PointLightComponents.size() < ShaderConstants::MAX_POINT_LIGHTS); // Maximum permitted point lights exceeded
 	PointLightComponents.push_back(InPointLightComponent);
 }
@@ -64,23 +42,19 @@ void CObjectReferenceManager::AddPointLightComponent(CPointLightComponent* InPoi
 void CObjectReferenceManager::RemovePointLightComponent(CPointLightComponent* InPointLightComponent)
 {
 	assert(InPointLightComponent != nullptr);
-	for (auto i = PointLightComponents.begin(); i != PointLightComponents.end(); i++)
-	{
-		if (*i == InPointLightComponent)
-		{
-			PointLightComponents.erase(i);
-			return;
-		}
-	}
+	PointLightComponents.erase(std::remove(PointLightComponents.begin(), PointLightComponents.end(), InPointLightComponent),
+		PointLightComponents.end());
 }
 
 
 void CObjectReferenceManager::UpdateDirectionalLightComponent(CDirectionalLightComponent* InDirectionalLightComponent)
 {
+	// Directional light could be nullptr to imply no directional light.
 	DirectionalLightComponent = InDirectionalLightComponent;
 }
 
 void CObjectReferenceManager::UpdateSkybox(CSkybox* InSkybox)
 {
+	// Skybox can be nullptr to not draw a skybox
 	Skybox = InSkybox;
 }

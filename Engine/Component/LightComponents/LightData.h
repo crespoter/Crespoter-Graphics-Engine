@@ -1,6 +1,8 @@
 #pragma once
 #include <glm/glm.hpp>
 
+// TODO: This could be loaded from a config file instead of being set here.
+
 struct FLightAttenuation
 {
 	// Default values for distance up to 50 units.
@@ -9,6 +11,7 @@ struct FLightAttenuation
 	float LinearCoeff = 0.07f;
 	float QuadraticCoeff = 0.017f;
 };
+
 struct FLightProperties
 {
 	glm::vec3 AmbientColor = glm::vec3(0.0f);

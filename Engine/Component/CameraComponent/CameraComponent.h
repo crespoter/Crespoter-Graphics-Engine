@@ -1,6 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
-#include "../Component.h"
+#include "Engine/Component/Component.h"
 
 class CTransformationComponent;
 class IWindowInterface;
@@ -16,33 +16,31 @@ class CCameraComponent : public IComponent
 public:
 	CCameraComponent();
 
-
-	glm::mat4 GetViewMatrix() const;
+	void GetViewMatrix(glm::mat4& outViewMatrix) const;
 
 	glm::mat4 GetProjectionMatrix(const IWindowInterface* InWindow) const;
 
-	void Start() override;
+	virtual void Start() override;
 
-	void Update(float DeltaTime) override;
+	virtual void Update(float DeltaTime) override;
 
 	void SetWorldUp(const glm::vec3 &InWorldUp);
 
-	/**
-	 * Updates the euler angles of rotation for the camera
-	 */
-	void UpdateRotationEulerAngles(float NewYaw, float NewPitch);
+
+	void UpdateRotationEulerAngles(const float NewYaw, const float NewPitch);
 
 	/**
-	 * Increments pitch and yaw by values provided
+	 * Increments pitch and yaw by values provided. Pitch is locked at 90 degrees.
 	 */
-	void IncrementRotationEulerAngles(float YawIncrement, float PitchIncrement);
+	void IncrementRotationEulerAngles(const float YawIncrement, const float PitchIncrement);
 
-	glm::vec3 GetCameraForward() const;
+	const glm::vec3& GetCameraForward() const;
 
-	glm::vec3 GetCameraUp() const;
+	const glm::vec3& GetCameraUp() const;
 
 	glm::vec3 GetCameraRight() const;
 
+	// TODO: Should be const after updating to new transformation logic
 	CTransformationComponent* GetParentTransformationComponent() const;
 
 	/**
@@ -50,9 +48,14 @@ public:
 	*/
 	void SetFov(float NewFov);
 
-	void SetMinAndMaxDistance(float MinDistance, float MaxDistance);
+	void SetMinAndMaxDistance(float InMinDistance, float InMaxDistance);
 
 protected:
+
+	// TODO: Transformation component is not const because getting position requires 
+	// a lazy loading of position from the transformation matrix. Update the transformation
+	// component code to update position whenever the transformation is updated.
+
 	CTransformationComponent* ParentTransformationComponent = nullptr;
 	glm::vec3 CameraForward = glm::vec3(-1.0f, 0.0f, 0.0f);
 	glm::vec3 WorldUp = glm::vec3(0.0f, 1.0f, 0.0f);

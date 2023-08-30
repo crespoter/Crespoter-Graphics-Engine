@@ -3,15 +3,16 @@
 #include "../ShaderProgram/ShaderProgram.h"
 #include "../Core/Core.h"
 #include "../Core/ObjectReferenceManager/ObjectReferenceManager.h"
+#include <Engine/Window/WindowInterface.h>
 
 CCameraComponent* ServiceLocator::ActiveCamera = nullptr;
 CShaderProgram* ServiceLocator::MainRenderShader = nullptr;
 CCore ServiceLocator::Core;
 CObjectReferenceManager ServiceLocator::ObjectReferenceManager;
-COpenGLWindow* ServiceLocator::Window = nullptr;
+IWindowInterface* ServiceLocator::Window = nullptr;
 
 
-void ServiceLocator::Provide(COpenGLWindow* InWindow)
+void ServiceLocator::Provide(IWindowInterface* InWindow)
 {
 	Window = InWindow;
 }
@@ -37,7 +38,7 @@ CShaderProgram* ServiceLocator::GetMainShaderProgram()
 	return MainRenderShader;
 }
 
-COpenGLWindow* ServiceLocator::GetWindow()
+IWindowInterface* ServiceLocator::GetWindow()
 {
 	return Window;
 }

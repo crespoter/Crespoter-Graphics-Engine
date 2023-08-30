@@ -1,27 +1,33 @@
 #pragma once
-#include "../Component.h"
+#include "Engine/Component/Component.h"
 #include <glm/glm.hpp>
 
 class CModel;
+class CTransformationComponent;
 
 namespace
 {
 	std::string DEFAULT_NAME = "RenderComponent";
 }
+
 class CRenderComponent : public IComponent
 {
 public:
-	CRenderComponent(const std::string& ComponentName = DEFAULT_NAME);
+	explicit CRenderComponent(const std::string& ComponentName = DEFAULT_NAME);
 	
-	~CRenderComponent();
+	virtual ~CRenderComponent();
 
-	// Sets the model path and loads the model
+	virtual void Start() override;
+
+	// Sets and loads the model
 	void SetModel(const std::string& ModelPath);
 
 	void Render();
 
-	glm::mat4 GetModelMatrix();
+	void GetModelMatrix(glm::mat4& outModelMatrix);
 
 private:
 	std::unique_ptr<CModel> ModelObject{ nullptr };
+	
+	CTransformationComponent* ParentTransformationComponent{ nullptr };
 };

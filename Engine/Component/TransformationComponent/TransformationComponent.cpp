@@ -10,26 +10,40 @@ CTransformationComponent::CTransformationComponent() : IComponent(TRANSFORMATION
 void CTransformationComponent::Update(float DeltaTime)
 {
 	IComponent::Update(DeltaTime);
-	TransformationCalculationStates.reset();
 }
 
-glm::mat4 CTransformationComponent::GetModelMatrix() const
+void CTransformationComponent::GetModelMatrix(glm::mat4& outModelMatrix) const
 {
-	return TransformationMatrix;
+	outModelMatrix = TransformationMatrix;
 }
 
 void CTransformationComponent::MoveTo(const glm::vec3 &InNewPosition)
 {
+	/*
+	*	[][][][x]
+	*	[][][][y]
+	*	[][][][z]
+	*	[][][][1.0f]
+	*/
 	TransformationMatrix[3] = glm::vec4(InNewPosition, 1.0f);
 }
 
 void CTransformationComponent::Translate(const glm::vec3 &InTranslationVector)
 {
+	/*
+	*	[][][][x1 + x2]
+	*	[][][][y1 + y1]
+	*	[][][][z1 + z2]
+	*	[][][][1.0f]
+	*/
 	TransformationMatrix = glm::translate(TransformationMatrix, InTranslationVector);
 }
 
 void CTransformationComponent::Scale(const glm::vec3 &InScaleVector)
 {
+	// TODO: Move the object to origin with no rotation before applying scaling.
+	// currently, scaling, translation and rotations should be done in a very specific order
+	// which makes changing these values during a run loop cumbersome.
 	TransformationMatrix = glm::scale(TransformationMatrix, InScaleVector);
 }
 
@@ -41,37 +55,22 @@ void CTransformationComponent::Rotate(const glm::vec3& InRotationAxis, float Ang
 
 
 
-
 glm::vec3 CTransformationComponent::GetPosition()
 {
-	if (TransformationCalculationStates[TRANSFORMATION_STATE::POSITION_INDEX])
-	{
-		return Position;
-	}
-	Position = glm::vec3(TransformationMatrix[3]);
-	TransformationCalculationStates[TRANSFORMATION_STATE::POSITION_INDEX] = true;
-	return Position;
+	return glm::vec3(TransformationMatrix[3]);
 }
+
+// TODO: Find a way around calculating orientation and scale everytime they are required.
 
 glm::quat CTransformationComponent::GetOrientation()
 {
-	if (TransformationCalculationStates[TRANSFORMATION_STATE::OTHER_INDEX])
-	{
-		return Orientation;
-	}
 	CalculateRotationAndScale();
-	TransformationCalculationStates[TRANSFORMATION_STATE::OTHER_INDEX] = true;
 	return Orientation;
 }
 
 glm::vec3 CTransformationComponent::GetScale()
 {
-	if (TransformationCalculationStates[TRANSFORMATION_STATE::OTHER_INDEX])
-	{
-		return ScaleVector;
-	}
 	CalculateRotationAndScale();
-	TransformationCalculationStates[TRANSFORMATION_STATE::OTHER_INDEX] = true;
 	return ScaleVector;
 }
 
@@ -79,6 +78,7 @@ void CTransformationComponent::CalculateRotationAndScale()
 {
 	glm::vec3 Skew;
 	glm::vec4 Perspective;
+	glm::vec3 Position = GetPosition();
 	glm::decompose(TransformationMatrix, ScaleVector, Orientation, Position, Skew, Perspective);
 	Orientation = glm::conjugate(Orientation);
 }

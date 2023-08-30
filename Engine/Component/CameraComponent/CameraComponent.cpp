@@ -1,25 +1,26 @@
 #include "CameraComponent.h"
-#include "../Component.h"
-#include "../../GameObject/GameObject.h"
-#include "../TransformationComponent/TransformationComponent.h"
-#include "../../Window/WindowInterface.h"
-#include "../../ServiceLocator/ServiceLocator.h"
-
+#include "Engine/GameObject/GameObject.h"
+#include "Engine/Component/TransformationComponent/TransformationComponent.h"
+#include "Engine/Window/WindowInterface.h"
+#include "Engine/ServiceLocator/ServiceLocator.h"
 #include <algorithm>
 
 CCameraComponent::CCameraComponent() : IComponent(CAMERA_COMPONENT_NAME)
-{	
-	// If there is no camera registered, register this as the active camera
+{
+	// If there is no camera already registered, register this as the active camera
+	// The current architecture enforces that only one camera can be directly accessed
+	// from the service locator. Adding additional cameras would require the game client
+	// to keep track of the created camera objects.
 	if (ServiceLocator::GetActiveCamera() == nullptr)
 	{
 		ServiceLocator::Provide(this);
 	}
 }
 
-glm::mat4 CCameraComponent::GetViewMatrix() const
+void CCameraComponent::GetViewMatrix(glm::mat4& outViewMatrix) const
 {
 	const glm::vec3 Position = ParentTransformationComponent->GetPosition();
-	return glm::lookAt(Position, Position + CameraForward, CameraUp);
+	outViewMatrix = glm::lookAt(Position, Position + CameraForward, CameraUp);
 }
 
 glm::mat4 CCameraComponent::GetProjectionMatrix(const IWindowInterface* InWindow) const
@@ -30,9 +31,10 @@ glm::mat4 CCameraComponent::GetProjectionMatrix(const IWindowInterface* InWindow
 void CCameraComponent::Start()
 {
 	IComponent::Start();
-	assert(ParentGameObject != nullptr);
+	assert(ParentGameObject);
+	// TODO: Change to const once transformation component is updated.
 	CTransformationComponent* TransformationComponent = ParentGameObject->GetComponent<CTransformationComponent>();
-	assert(TransformationComponent != nullptr);
+	assert(TransformationComponent);
 	ParentTransformationComponent = TransformationComponent;
 }
 
@@ -53,25 +55,25 @@ void CCameraComponent::SetWorldUp(const glm::vec3& InWorldUp)
 }
 
 
-void CCameraComponent::UpdateRotationEulerAngles(float NewYaw, float NewPitch)
+void CCameraComponent::UpdateRotationEulerAngles(const float NewYaw, const float NewPitch)
 {
 	Yaw = NewYaw;
 	Pitch = NewPitch;
 }
 
-void CCameraComponent::IncrementRotationEulerAngles(float YawIncrement, float PitchIncrement)
+void CCameraComponent::IncrementRotationEulerAngles(const float YawIncrement, const float PitchIncrement)
 {
 	Yaw += YawIncrement;
 	Pitch += PitchIncrement;
 	Pitch = std::clamp(Pitch, -89.0f, 89.0f);
 }
 
-glm::vec3 CCameraComponent::GetCameraForward() const
+const glm::vec3& CCameraComponent::GetCameraForward() const
 {
 	return CameraForward;
 }
 
-glm::vec3 CCameraComponent::GetCameraUp() const
+const glm::vec3& CCameraComponent::GetCameraUp() const
 {
 	return CameraUp;
 }
@@ -93,6 +95,7 @@ void CCameraComponent::SetFov(float NewFov)
 
 void CCameraComponent::SetMinAndMaxDistance(float InMinDistance, float InMaxDistance)
 {
+	assert(InMaxDistance > InMinDistance);
 	MinDistance = InMinDistance;
 	MaxDistance = InMaxDistance;
 }

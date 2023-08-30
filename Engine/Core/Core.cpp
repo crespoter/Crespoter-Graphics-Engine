@@ -1,17 +1,17 @@
 #include "Core.h"
-#include "../Window/OpenGLWindow/OpenGLWindow.h"
-#include "../Configurations/Config.h"
-#include "../Constants/ShaderConstants.h"
-#include "../ServiceLocator/ServiceLocator.h"
-#include "../ShaderProgram/ShaderProgram.h"
-#include "../GameObject/GameObject.h"
+#include "Engine/Window/OpenGLWindow/OpenGLWindow.h"
+#include "Configurations/Config.h"
+#include "Engine/Constants/ShaderConstants.h"
+#include "Engine/ServiceLocator/ServiceLocator.h"
+#include "Engine/ShaderProgram/ShaderProgram.h"
+#include "Engine/GameObject/GameObject.h"
 #include "ObjectReferenceManager/ObjectReferenceManager.h"
-#include "../Component/RenderComponent/RenderComponent.h"
-#include "../Component/CameraComponent/CameraComponent.h"
-#include "../Skybox/Skybox.h"
-#include "../Component/TransformationComponent/TransformationComponent.h"
-#include "../Component/LightComponents/PointLightComponent/PointLightComponent.h"
-#include "../Component/LightComponents/DirectionalLightComponent/DirectionalLightComponent.h"
+#include "Engine/Component/RenderComponent/RenderComponent.h"
+#include "Engine/Component/CameraComponent/CameraComponent.h"
+#include "Engine/Skybox/Skybox.h"
+#include "Engine/Component/TransformationComponent/TransformationComponent.h"
+#include "Engine/Component/LightComponents/PointLightComponent/PointLightComponent.h"
+#include "Engine/Component/LightComponents/DirectionalLightComponent/DirectionalLightComponent.h"
 
 CCore::CCore()
 {
@@ -39,6 +39,15 @@ void CCore::StartEngine()
 {
 	CObjectReferenceManager* ObjectReferenceManager =  ServiceLocator::GetObjectReferenceManager();
 	LastTime = (float)glfwGetTime();
+	
+	struct FRenderInformation
+	{
+		glm::mat4 ViewMatrix;
+		glm::mat4 ProjectionMatrix;
+		glm::mat4 ModelMatrix;
+		glm::mat4 ViewPosition;
+	};
+	FRenderInformation RenderInformation;
 
 	while (!Window->ShouldWindowClose())
 	{	
@@ -105,12 +114,14 @@ void CCore::StartEngine()
 		for (auto i = ObjectReferenceManager->RenderComponents.begin(); i != ObjectReferenceManager->RenderComponents.end(); i++)
 		{
 			CRenderComponent* RenderComponent = *i;
-
-			MainRenderShader->SetMat4("ViewMatrix", CameraComponent->GetViewMatrix());
+			CameraComponent->GetViewMatrix(RenderInformation.ViewMatrix);
+			RenderComponent->GetModelMatrix(RenderInformation.ModelMatrix);
+			// TODO: Store the opengl uniform variable names somewhere else and retrieve it instead of using strings
+			MainRenderShader->SetMat4("ViewMatrix", RenderInformation.ViewMatrix);
 			MainRenderShader->SetMat4("ProjectionMatrix", CameraComponent->GetProjectionMatrix(Window));
 			MainRenderShader->SetVec3("ViewPosition", CameraComponent->GetParentTransformationComponent()->GetPosition());
 
-			MainRenderShader->SetMat4("ModelMatrix", RenderComponent->GetModelMatrix());
+			MainRenderShader->SetMat4("ModelMatrix", RenderInformation.ModelMatrix);
 			
 			RenderComponent->Render();
 		}
@@ -118,7 +129,8 @@ void CCore::StartEngine()
 		// Handle Skybox
 		if (ObjectReferenceManager->Skybox != nullptr)
 		{
-			ObjectReferenceManager->Skybox->Draw(CameraComponent->GetViewMatrix(), CameraComponent->GetProjectionMatrix(Window));
+			CameraComponent->GetViewMatrix(RenderInformation.ViewMatrix);
+			ObjectReferenceManager->Skybox->Draw(RenderInformation.ViewMatrix, CameraComponent->GetProjectionMatrix(Window));
 		}
 		
 		glfwPollEvents();

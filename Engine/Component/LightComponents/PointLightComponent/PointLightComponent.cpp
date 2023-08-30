@@ -1,14 +1,20 @@
 #include "PointLightComponent.h"
-#include "../../../ServiceLocator/ServiceLocator.h"
-#include "../../../Core/ObjectReferenceManager/ObjectReferenceManager.h"
-#include "../../../GameObject/GameObject.h"
-#include "../../TransformationComponent/TransformationComponent.h"
+#include "Engine/ServiceLocator/ServiceLocator.h"
+#include "Engine/Core/ObjectReferenceManager/ObjectReferenceManager.h"
+#include "Engine/GameObject/GameObject.h"
+#include "Engine/Component/TransformationComponent/TransformationComponent.h"
 
 
 
 CPointLightComponent::CPointLightComponent(const std::string& InComponentName) : IComponent(InComponentName) 
 {
 	ServiceLocator::GetObjectReferenceManager()->AddPointLightComponent(this);
+}
+
+void CPointLightComponent::Start()
+{
+	ParentTransformationComponent = ParentGameObject->GetComponent<CTransformationComponent>();
+	assert(ParentTransformationComponent);
 }
 
 CPointLightComponent::~CPointLightComponent()
@@ -57,7 +63,8 @@ glm::vec3 CPointLightComponent::GetSpecularColor() const
 
 glm::vec3 CPointLightComponent::GetLightPosition() const
 {
-	return ParentGameObject->GetComponent<CTransformationComponent>()->GetPosition();
+	assert(ParentTransformationComponent);
+	return ParentTransformationComponent->GetPosition();
 }
 
 float CPointLightComponent::GetLinearAttenuationCoeff() const
